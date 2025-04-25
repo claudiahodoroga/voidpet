@@ -1,10 +1,54 @@
-/* export default function UIOverlay({ onFeed, onPlay, onSleep }: any) {
+import React from "react";
+
+interface UIOverlayProps {
+  onFeed: () => void;
+  onRest: () => void;
+  onPlay: () => void;
+  isLoading?: boolean;
+}
+
+const UIOverlay: React.FC<UIOverlayProps> = ({
+  onFeed,
+  onRest,
+  onPlay,
+  isLoading = false,
+}) => {
   return (
-    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-4">
-      <button onClick={onFeed}>🍽 Feed</button>
-      <button onClick={onPlay}>🎾 Play</button>
-      <button onClick={onSleep}>🛏 Sleep</button>
+    <div className="ui-overlay">
+      <button
+        className="action-button feed-button"
+        onClick={onFeed}
+        disabled={isLoading}
+      >
+        <span role="img" aria-label="Feed">
+          🍰
+        </span>{" "}
+        Feed
+      </button>
+
+      <button
+        className="action-button rest-button"
+        onClick={onRest}
+        disabled={isLoading}
+      >
+        <span role="img" aria-label="Rest">
+          💤
+        </span>{" "}
+        Rest
+      </button>
+
+      <button
+        className="action-button play-button"
+        onClick={onPlay}
+        disabled={isLoading}
+      >
+        <span role="img" aria-label="Play">
+          🎮
+        </span>{" "}
+        Play
+      </button>
     </div>
   );
-}
- */
+};
+
+export default UIOverlay;

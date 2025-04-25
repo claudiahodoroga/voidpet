@@ -1,45 +1,34 @@
-/* import { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
+//import "../styles/Pet.css";
 
-const decayRate = 5; // every 2 minutes
-
-export default function Pet() {
-  const [mood, setMood] = useState("happy");
-  const [hunger, setHunger] = useState(40);
-  const [energy, setEnergy] = useState(80);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setHunger((h) => h + decayRate);
-      setEnergy((e) => e - decayRate);
-    }, 120000); // every 2 min
-
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    if (hunger > 70) setMood("hungry");
-    else if (energy < 30) setMood("sleepy");
-    else setMood("happy");
-  }, [hunger, energy]);
-
-  return (
-    <div className="absolute inset-0 flex justify-center items-center">
-      <div className="text-6xl">{mood === "happy" ? "🐾" : "😿"}</div>
-    </div>
-  );
+interface PetProps {
+  hunger: number;
+  tiredness: number;
+  entertainment: number;
 }
 
-// src/components/PetStats.tsx
-//import React from "react";
-import { PetMood } from "../hooks/usePetMood";
+const Pet: React.FC<PetProps> = ({ hunger, tiredness, entertainment }) => {
+  const petRef = useRef<HTMLDivElement>(null);
 
-export function PetStats({ mood }: { mood: PetMood }) {
+  // Calculate overall mood (0-100)
+  const overallMood = Math.floor((hunger + tiredness + entertainment) / 3);
+
+  // Determine pet expression based on mood
+  const getMoodExpression = () => {
+    if (overallMood > 80) return "(◕‿◕)";
+    if (overallMood > 60) return "(•‿•)";
+    if (overallMood > 40) return "(•_•)";
+    if (overallMood > 20) return "(⊙︿⊙)";
+    return "(╥﹏╥)";
+  };
+
   return (
-    <div className="stats">
-      <p>Hunger: {mood.hunger.toFixed(0)}%</p>
-      <p>Tiredness: {mood.tiredness.toFixed(0)}%</p>
-      <p>Entertainment: {mood.entertainment.toFixed(0)}%</p>
+    <div ref={petRef} className={`pet ${overallMood < 30 ? "pet-sad" : ""}`}>
+      <div className="pet-body">
+        <div className="pet-face">{getMoodExpression()}</div>
+      </div>
     </div>
   );
-}
- */
+};
+
+export default Pet;
