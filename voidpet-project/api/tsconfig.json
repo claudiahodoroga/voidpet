@@ -1,10 +1,22 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es6",
-    "outDir": "dist",
-    "rootDir": ".",
-    "sourceMap": true,
-    "strict": false
-  }
+    "module": "commonjs", 
+    "target": "es2021",  
+    "outDir": "dist",    
+    "rootDir": "src",     
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    // "sourceMap": true, // Optional: useful for debugging
+    // "declaration": true, // Optional: if you need .d.ts files
+  },
+  "include": [
+    "src/**/*" // Compile all .ts files within the 'src' directory
+  ],
+  "exclude": [
+    "node_modules",
+    "**/node_modules/*"
+  ]
 }
