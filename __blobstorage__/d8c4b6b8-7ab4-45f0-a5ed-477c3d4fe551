@@ -1,0 +1,61 @@
+{
+  "id": "q7go4npjyr",
+  "name": "Pikachu",
+  "dateCreated": "2025-05-14T10:49:47.502Z",
+  "lastInteraction": "2025-05-14T10:49:47.502Z",
+  "stats": {
+    "entertainment": 100,
+    "hunger": 100,
+    "tiredness": 100
+  }
+}{
+  "id": "q7go4npjyr",
+  "name": "Pikachu Evolved",
+  "dateCreated": "2025-05-14T10:49:47.502Z",
+  "stats": {
+    "entertainment": 100,
+    "hunger": 50,
+    "tiredness": 20
+  },
+  "lastInteraction": "2025-05-14T10:50:40.855Z"
+}{
+  "id": "q7go4npjyr",
+  "name": "Pikachu Evolved",
+  "dateCreated": "2025-05",
+  "stats": {
+    "entertainment": 100,
+    "hunger": 50,
+    "tiredness": 20
+  },
+  "lastInteraction": "2025-05-14T10:51:49.801Z"
+}{
+  "id": "q7go4npjyr",
+  "name": "Pikachu Evolved",
+  "dateCreated": "2025",
+  "stats": {
+    "entertainment": 100,
+    "hunger": 50,
+    "tiredness": 20
+  },
+  "lastInteraction": "2025-05-14T10:52:01.216Z"
+}{
+  "id": "s3re66pbej",
+  "name": "Pikachu",
+  "dateCreated": "2025-05-14T10:54:57.454Z",
+  "lastInteraction": "2025-05-14T10:54:57.454Z",
+  "stats": {
+    "entertainment": 100,
+    "hunger": 100,
+    "tiredness": 100
+  }
+}{
+  "id": "s3re66pbej",
+  "name": "Pikachu Evolved",
+  "dateCreated": "2025-05-14T10:49:47.502Z",
+  "stats": {
+    "entertainment": 100,
+    "hunger": 50,
+    "tiredness": 20
+  },
+  "lastInteraction": "2025-05-14T10:55:09.118Z"
+}
