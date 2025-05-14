@@ -1,0 +1,41 @@
+{
+  "id": "y3tqtc63x5",
+  "name": "crisvortex",
+  "dateCreated": "2025-05-14T16:32:14.569Z",
+  "lastInteraction": "2025-05-14T16:32:14.569Z",
+  "stats": {
+    "entertainment": 100,
+    "hunger": 100,
+    "tiredness": 100
+  }
+}{
+  "id": "y3tqtc63x5",
+  "name": "crisvortex",
+  "dateCreated": "2025-05-14T16:32:14.569Z",
+  "stats": {
+    "entertainment": 100,
+    "hunger": 95,
+    "tiredness": 100
+  },
+  "lastInteraction": "2025-05-14T16:33:16.611Z"
+}{
+  "id": "y3tqtc63x5",
+  "name": "crisvortex",
+  "dateCreated": "2025-05-14T16:32:14.569Z",
+  "stats": {
+    "entertainment": 100,
+    "hunger": 95,
+    "tiredness": 50
+  },
+  "lastInteraction": "2025-05-14T16:33:18.046Z"
+}{
+  "id": "y3tqtc63x5",
+  "name": "crisvortex",
+  "dateCreated": "2025-05-14T16:32:14.569Z",
+  "stats": {
+    "entertainment": 100,
+    "hunger": 100,
+    "tiredness": 50
+  },
+  "lastInteraction": "2025-05-14T16:33:20.172Z"
+}
