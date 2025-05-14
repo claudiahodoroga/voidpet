@@ -119,6 +119,59 @@
   font-family: var(--font-primary);
 }
 
+.statsBarArea {
+  /* This will be the direct child of innerScreenFrame for the bottom bar */
+  /* Styling for this area is mostly handled by StatsDisplay.module.css,
+     but ComputerShell might define its container properties if needed.
+     For now, StatsDisplay's own container style should be sufficient. */
+  border-top: 2px solid rgba(0,0,0,0.6); /* Separator line from screen content */
+}
+
+.controlPanelArea {
+  /* This will be a direct child of computerStructure for the side panel */
+  /* Styling is handled by Controls.module.css */
+  /* Ensure computerStructure can accommodate it (e.g., using flex) */
+}
+
+/* Ensure .computerStructure is flex if not already */
+.computerStructure {
+  display: flex;
+  border-radius: 0.75rem; /* approx rounded-xl */
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+  overflow: hidden;
+  height: 650px;
+  max-height: 80vh;
+}
+
+/* Ensure .screenArea takes up remaining space if controls are present */
+.screenArea {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-void-dark);
+  padding: 0.5rem;
+  border-top: 2px solid var(--color-bezel-medium);
+  border-left: 2px solid var(--color-bezel-medium);
+  border-bottom: 4px solid var(--color-bezel-dark);
+  /* border-right is removed if controls are on the right, or adjusted */
+  /* If controls are present, screenArea might not need right border or rounding */
+  border-radius: 0.6rem 0 0 0.6rem; /* Default: rounded left, assuming controls on right */
+}
+
+/* New style if controls are present, screenArea might not be rounded on the right */
+.screenAreaWithControls {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-void-dark);
+  padding: 0.5rem;
+  border-top: 2px solid var(--color-bezel-medium);
+  border-left: 2px solid var(--color-bezel-medium);
+  border-bottom: 4px solid var(--color-bezel-dark);
+  border-right: 2px solid var(--color-bezel-dark); /* Add a right border if controls are next to it */
+  border-radius: 0.6rem 0 0 0.6rem; /* Keep left rounding */
+}
+
 /* Optional pulse animation for status light */
 @keyframes pulse {
   0%, 100% {
@@ -146,3 +199,4 @@
 .screenContent::-webkit-scrollbar-thumb:hover {
   background-color: #02b8e8; 
 }
+

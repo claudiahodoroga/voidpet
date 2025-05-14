@@ -1,15 +1,12 @@
 // src/components/ComputerShell/ComputerShell.tsx
 import React from "react";
-import styles from "./ComputerShell.module.css"; // Import the CSS Module
+import styles from "./ComputerShell.module.css";
 
-// Props for the TopBar component
+// TopBar component (can be in the same file or imported)
 interface TopBarProps {
   petName?: string;
   showTitle?: boolean;
 }
-
-// Component for the top bar inside the screen
-// This can remain as a sub-component or be moved to its own file later
 export const TopBar: React.FC<TopBarProps> = ({
   petName,
   showTitle = true,
@@ -17,7 +14,6 @@ export const TopBar: React.FC<TopBarProps> = ({
   return (
     <div className={styles.topBar}>
       <div className={styles.topBarTitleContainer}>
-        {/* Egg Icon SVG */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -36,32 +32,47 @@ export const TopBar: React.FC<TopBarProps> = ({
   );
 };
 
-// Props for the ComputerShell component
 interface ComputerShellProps {
-  children: React.ReactNode;
+  children: React.ReactNode; // Main screen content
   showTopBarTitle?: boolean;
   petName?: string;
-  // We will add showControls and showStats props later
+  statsNode?: React.ReactNode; // Optional node for stats bar
+  controlsNode?: React.ReactNode; // Optional node for controls panel
 }
 
 const ComputerShell: React.FC<ComputerShellProps> = ({
   children,
   showTopBarTitle = true,
   petName,
+  statsNode,
+  controlsNode,
 }) => {
+  // Determine screen area style based on whether controls are present
+  const screenAreaClass = controlsNode
+    ? styles.screenAreaWithControls
+    : styles.screenArea;
+
   return (
     <div className={styles.terminalCasing}>
       <div className={styles.computerStructure}>
-        <div className={styles.screenArea}>
+        <div className={screenAreaClass}>
+          {" "}
+          {/* Use dynamic class here */}
           <div className={styles.innerScreenFrame}>
             <TopBar petName={petName} showTitle={showTopBarTitle} />
             <main className={styles.screenContent}>{children}</main>
-            {/* Placeholder for Bottom Stats Bar - to be added later */}
-            {/* <footer className={styles.statsBar}>Stats Area</footer> */}
+            {statsNode && (
+              <footer className={styles.statsBarArea}>{statsNode}</footer>
+            )}
           </div>
         </div>
-        {/* Placeholder for Side Control Panel - to be added later */}
-        {/* <aside className={styles.controlPanel}>Controls Area</aside> */}
+        {controlsNode && (
+          <aside className={styles.controlPanelArea}>
+            {" "}
+            {/* Use a more specific class if needed */}
+            {controlsNode}
+          </aside>
+        )}
       </div>
     </div>
   );
