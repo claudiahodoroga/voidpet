@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import LandingPage from "./components/LandingPage/LandingPage";
 import ComputerShell from "./components/ComputerShell/ComputerShell"; // For when pet exists
-import { Pet } from "./models/pet.model";
+import type { Pet } from "./models/pet.model"; // Or './models/pet.model' depending on the file location
 import * as petService from "./services/pet.service";
 import "./index.css"; // Or your main global CSS file
 

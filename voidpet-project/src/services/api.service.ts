@@ -1,5 +1,5 @@
 import type { Pet } from '../models/pet.model'; // Assuming your Pet model is in src/models/
- // Assuming your Pet model is in src/models/
+
 
 // Define the base URL for your Azure Functions API
 // For local development with `func start`, this is typically http://localhost:7071/api

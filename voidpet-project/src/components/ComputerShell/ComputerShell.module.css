@@ -1,22 +1,5 @@
 /* src/components/ComputerShell/ComputerShell.module.css */
 
-/* Define custom properties (CSS variables) for colors for reusability */
-:root {
-  --color-void-dark: #1D1F24;
-  --color-void-blue-deep: #014C6C;
-  --color-void-blue-medium: #01A5D3;
-  --color-screen-gradient-start: #014C6C;
-  --color-screen-gradient-end: #013349;
-  --color-terminal-body-start: #c0c0c0; /* Light silver for outer shell */
-  --color-terminal-body-end: #a0a0a0;   /* Slightly darker silver */
-  --color-bezel-dark: #2d2d2d;
-  --color-bezel-medium: #4a4a4a;
-  --color-bezel-light: #6f6f6f;
-  --color-screen-border: #111;
-  --color-text-light: #E0F2FE; /* Light cyan/blue text */
-  --color-text-dark: var(--color-void-dark);
-  --font-primary: 'Inter', sans-serif; /* Placeholder for Input Sans */
-}
 
 /* Styles for the outermost physical terminal casing */
 .terminalCasing {
