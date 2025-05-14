@@ -57,9 +57,9 @@ PUT {{baseUrl}}/SavePet
 Content-Type: application/json
 
 {
-    "id": "q7go4npjyr",
+    "id": "s3re66pbej",
     "name": "Pikachu Evolved", 
-    "dateCreated": "2025-05-14T10:49:47.502Z",
+    "dateCreated": "2025",
     "stats":{
         "entertainment": 100,
         "hunger": 50,
