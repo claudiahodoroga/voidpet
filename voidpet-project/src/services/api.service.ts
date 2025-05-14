@@ -4,7 +4,7 @@ import type { Pet } from '../models/pet.model'; // Assuming your Pet model is in
 // Define the base URL for your Azure Functions API
 // For local development with `func start`, this is typically http://localhost:7071/api
 // If using Vite proxy or SWA CLI later, this might just be '/api'
-const API_BASE_URL = 'http://localhost:7071/api';
+const API_BASE_URL = '/api';
 
 // Helper function to handle fetch responses
 async function handleResponse<T>(response: Response): Promise<T> {
