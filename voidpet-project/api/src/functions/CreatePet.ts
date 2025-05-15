@@ -1,6 +1,6 @@
 import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
-import { createNewPet, Pet } from "../../shared/pet.model"; // Assuming Pet is the type, createNewPet is a helper
-import { StorageService } from "../../shared/storage.service";
+import { createNewPet, Pet } from "../shared/pet.model"; // Assuming Pet is the type, createNewPet is a helper
+import { StorageService } from "../shared/storage.service";
 
 async function createPetHandler(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
     context.log(`CreatePet HTTP trigger function processed request for url "${request.url}"`);

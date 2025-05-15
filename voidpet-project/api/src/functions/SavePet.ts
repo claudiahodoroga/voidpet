@@ -1,6 +1,6 @@
 import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
-import { Pet } from "../../shared/pet.model"; // Ensure Pet model is correctly imported
-import { StorageService } from "../../shared/storage.service";
+import { Pet } from "../shared/pet.model"; // Ensure Pet model is correctly imported
+import { StorageService } from "../shared/storage.service";
 
 // Helper function to check if a string is a valid ISO 8601 date string
 function isValidISODateString(dateString: string): boolean {
