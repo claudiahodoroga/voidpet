@@ -23,7 +23,7 @@ const PetNameForm: React.FC<PetNameFormProps> = ({
 
   return (
     <div className={styles.petNameFormContainer}>
-      <h2 className={styles.title}>Welcome to Voidpet</h2>
+      <h2 className={styles.title}>Welcome</h2>
       <p className={styles.subtitle}>Please name your new companion.</p>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div>
