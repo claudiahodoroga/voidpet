@@ -2,7 +2,7 @@
   "name": "voidpet-api",
   "version": "1.0.0",
   "description": "Azure Functions API for Voidpet",
-  "main": "dist/functions/**/index.js",
+  "main": "dist/functions/index.js",
   "scripts": {
     "prebuild": "echo '>>> PREBUILD SCRIPT FOR API IS RUNNING <<<'",
     "build": "tsc",
