@@ -16,7 +16,8 @@ El desarrollo de Voidpet se llevó a cabo en varias fases, abarcando desde la co
 
 * **Idea Principal:** Crear una mascota virtual persistente con la que el usuario pueda interactuar para mantener sus estadísticas vitales.
 * **Estética:** Interfaz de usuario que simula una pantalla de computadora antigua, con un diseño minimalista y funcional.
-    * `[IMAGEN AQUÍ: Boceto inicial o captura del diseño de Figma de la pantalla principal]`
+    * ![void-screen-desktop](https://github.com/user-attachments/assets/46188e6b-18bc-421f-ba47-bf12887f70eb)
+
 * **Tecnologías Seleccionadas:**
     * **Frontend:** React con TypeScript, utilizando Vite como herramienta de compilación. Para el estilizado, se exploró inicialmente Tailwind CSS, pero se optó finalmente por CSS Modules personalizados para un mayor control sobre la estética deseada.
     * **Backend (API):** Azure Functions (Node.js con TypeScript) para gestionar la lógica de la mascota y la persistencia de datos.
@@ -93,7 +94,8 @@ Bienvenido a Voidpet. Aquí te explicamos cómo cuidar de tu nueva mascota virtu
 ### 2.1. Creación de tu Mascota
 
 1.  **Pantalla de Bienvenida:** Al abrir la aplicación por primera vez, verás una interfaz que simula una terminal de computadora. En el centro de la pantalla, se te pedirá que nombres a tu nueva mascota.
-    * `[IMAGEN AQUÍ: Captura de la LandingPage con el PetNameForm]`
+    * ![image](https://github.com/user-attachments/assets/d8bd9f36-0309-45ce-bc22-bf1c5937e9cb)
+
 2.  **Ingresa un Nombre:** Escribe el nombre que desees para tu Voidpet en el campo de texto.
 3.  **Crear Mascota:** Haz clic en el botón "Create Pet".
 
@@ -101,7 +103,8 @@ Bienvenido a Voidpet. Aquí te explicamos cómo cuidar de tu nueva mascota virtu
 
 Una vez creada tu mascota, la pantalla cambiará para mostrar la vista principal.
 
-* `[IMAGEN AQUÍ: Captura de la PetView con la mascota (placeholder), estadísticas y controles, similar a void-screen-desktop.jpg]`
+* ![image](https://github.com/user-attachments/assets/ea4e58e2-046c-4923-b075-41643142201a)
+
 
 **Elementos de la Interfaz:**
 
