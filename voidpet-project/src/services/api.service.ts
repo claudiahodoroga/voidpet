@@ -38,7 +38,7 @@ async function handleResponse<T>(response: Response): Promise<T> {
  */
 export async function createPet(name: string): Promise<Pet> {
     console.log(`api.service: Creating pet with name "${name}"`);
-    const response = await fetch(`${API_BASE_URL}/CreatePet`, {
+    const response = await fetch(`${API_BASE_URL}/CreatePet?`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ export async function getPet(petId: string): Promise<Pet | null> {
  */
 export async function savePet(pet: Pet): Promise<Pet> {
     console.log(`api.service: Saving pet with ID "${pet.id}"`);
-    const response = await fetch(`${API_BASE_URL}/SavePet`, {
+    const response = await fetch(`${API_BASE_URL}/SavePet?`, {
         method: 'PUT', // Matches our Azure Function definition
         headers: {
             'Content-Type': 'application/json',
