@@ -7,20 +7,29 @@ export class StorageService {
     private isInitialized: boolean = false; // To ensure container check runs once
 
     constructor() {
+        console.log("StorageService: Constructor called.");
         const connectionString = process.env.STORAGE_CONNECTION_STRING;
+        const containerNameEnv = process.env.STORAGE_CONTAINER_NAME;
+
         if (!connectionString) {
             console.error("Azure Storage Connection String (STORAGE_CONNECTION_STRING) is not defined in environment variables.");
             throw new Error("Azure Storage Connection String is not configured.");
         }
 
-        this.containerName = process.env.STORAGE_CONTAINER_NAME || "pets";
+        this.containerName = containerNameEnv || "pets";
         if (!this.containerName) {
             console.error("Azure Storage Container Name (STORAGE_CONTAINER_NAME) is not defined in environment variables.");
             throw new Error("Azure Storage Container Name is not configured.");
         }
 
-        const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
-        this.containerClient = blobServiceClient.getContainerClient(this.containerName);
+        try {
+            const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
+            this.containerClient = blobServiceClient.getContainerClient(this.containerName);
+            console.log("StorageService: BlobServiceClient and ContainerClient initialized."); // New Log
+        } catch (error) {
+            console.error("StorageService ERROR: Failed to initialize BlobServiceClient or ContainerClient:", error);
+            throw error; // Re-throw to prevent service from being used in a bad state
+        }
     }
 
     // Helper to ensure container exists, call before blob operations
