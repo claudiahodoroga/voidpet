@@ -39,7 +39,7 @@ export class StorageService {
         }
         try {
             // Create the container if it does not exist
-            await this.containerClient.createIfNotExists({ access: 'blob' }); // 'blob' allows anonymous read if desired, 'container' for more control
+            await this.containerClient.createIfNotExists(); 
             console.log(`StorageService: Container "${this.containerName}" is ready.`);
             this.isInitialized = true;
         } catch (error) {
