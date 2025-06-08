@@ -37,7 +37,7 @@ const PetDisplayComponent: React.FC<PetDisplayProps> = ({ pet }) => {
   return (
     <div style={displayContainerStyle}>
       <div style={modelViewerStyle}>
-        <ThreeJSPetModel modelPath="/assets/models/VirtualPetAnimado.glb" />
+        <ThreeJSPetModel modelPath="/assets/models/VirtualPet2.glb" />
       </div>
     </div>
   );
