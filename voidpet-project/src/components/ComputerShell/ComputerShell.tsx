@@ -17,7 +17,7 @@ export const TopBar: React.FC<TopBarProps> = ({
         {/* --- NUEVOS ICONOS --- */}
         {/* Elige UNO de los siguientes SVGs. Descomenta el que quieras usar y comenta o elimina los otros. */}
 
-        {/* --- Opción 1: Huevo Simple (Ovalado) --- */}
+        {/* Huevo Simple */}
         {
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -25,7 +25,7 @@ export const TopBar: React.FC<TopBarProps> = ({
             fill="currentColor"
             className={styles.topBarIcon}
           >
-            <path d="M12 2C8.13 2 5 6.03 5 11c0 4.97 3.13 9 7 9s7-4.03 7-9c0-4.97-3.13-9-7-9z" />
+            <path d="M12,22 C18,22 20,16 20,12 C20,8 17,2 12,2 C7,2 4,8 4,12 C4,16 6,22 12,22Z" />
           </svg>
         }
 
