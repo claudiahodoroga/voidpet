@@ -79,7 +79,7 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
         // 2. SOLUCIÓN DE POSICIÓN: Movemos el modelo hacia abajo en el eje Y.
         //    Ajusta este valor para subir o bajar el modelo en la pantalla.
         //    Un valor más negativo (ej: -0.4) lo bajará más.
-        model.position.y = -0.3;
+        model.position.y = -1;
 
         const maxDim = Math.max(size.x, size.y, size.z);
         const fov = camera.fov * (Math.PI / 180);
