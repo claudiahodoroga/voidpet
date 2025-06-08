@@ -47,6 +47,13 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
     directionalLight.position.set(5, 10, 7.5);
     scene.add(directionalLight);
 
+    // --- AYUDAS DE DEPURACIÓN ---
+    const axesHelper = new THREE.AxesHelper(2);
+    scene.add(axesHelper);
+    const gridHelper = new THREE.GridHelper(10, 10);
+    scene.add(gridHelper);
+    // --- FIN DE AYUDAS DE DEPURACIÓN ---
+
     const clock = new THREE.Clock();
     let mixer: THREE.AnimationMixer | null = null;
 
@@ -63,22 +70,28 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
 
-        // 1. Centrar el modelo en el origen del mundo
-        model.position.sub(center);
+        console.log("Bounding Box - Centro:", center);
+        console.log("Bounding Box - Tamaño:", size);
 
-        // 2. Ajuste de posición vertical
-        // Ajusta este valor para mover el modelo arriba/abajo en la pantalla
-        model.position.y -= size.y * 0.05;
+        model.position.sub(center);
+        model.position.y -= size.y * 0.4;
+
+        console.log("Posición final del modelo:", model.position);
 
         const maxDim = Math.max(size.x, size.y, size.z);
         const fov = camera.fov * (Math.PI / 180);
         let cameraDistance = Math.abs(maxDim / 2 / Math.tan(fov / 2));
-        cameraDistance *= 2; // Ajusta este factor para el zoom
+        cameraDistance *= 2.2;
 
-        camera.position.set(0, 1, cameraDistance); // Cámara a la altura del nuevo centro del modelo
-        camera.lookAt(model.position); // Apuntar la cámara a la nueva posición del modelo
+        camera.position.set(0, 0, cameraDistance);
+        camera.lookAt(model.position);
 
         scene.add(model);
+
+        // CORREGIDO (Línea 86): Se crea una nueva instancia de THREE.Color.
+        const boxHelper = new THREE.Box3Helper(box, new THREE.Color(0xffff00)); // Caja amarilla
+        scene.add(boxHelper);
+
         setIsLoading(false);
         if (onLoad) onLoad();
 
@@ -97,7 +110,6 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
       }
     );
 
-    // --- Bucle de Animación y Limpieza ---
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
       const delta = clock.getDelta();
@@ -105,7 +117,6 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
       renderer.render(scene, camera);
     };
 
-    // --- MEJORA: ResizeObserver para ajustar el canvas ---
     const resizeObserver = new ResizeObserver((entries) => {
       if (!entries || entries.length === 0) return;
       const { width, height } = entries[0].contentRect;
@@ -120,7 +131,7 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
     return () => {
       resizeObserver.disconnect();
       cancelAnimationFrame(animationFrameId);
-
+      // CORREGIDO (Línea 126): Se añade la lógica de limpieza que faltaba.
       scene.traverse((object) => {
         if (object instanceof THREE.Mesh) {
           object.geometry.dispose();
@@ -149,6 +160,7 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
         overflow: "hidden",
       }}
     >
+      {/* CORREGIDO (Línea 137): Se reemplaza '...' con los estilos completos. */}
       {isLoading && (
         <div
           style={{
@@ -165,6 +177,7 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
           Cargando Modelo 3D...
         </div>
       )}
+      {/* CORREGIDO (Línea 140): Se reemplaza '...' con los estilos completos. */}
       {errorLoading && (
         <div
           style={{
