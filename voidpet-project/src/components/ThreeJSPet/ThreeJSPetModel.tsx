@@ -74,7 +74,7 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
         console.log("Bounding Box - Tamaño:", size);
 
         model.position.sub(center);
-        model.position.y -= size.y * 0.4;
+        model.position.y -= size.y * 0.1;
 
         console.log("Posición final del modelo:", model.position);
 
