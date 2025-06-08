@@ -1,86 +1,82 @@
-/* src/components/ComputerShell/ComputerShell.module.css */
+// src/components/ComputerShell/ComputerShell.tsx
+import React from 'react';
+import styles from './ComputerShell.module.css'; // Asegúrate de que este archivo CSS esté actualizado
 
-/* ... (Las variables :root de tu archivo global siguen siendo válidas) ... */
+// ... (El resto de tu código de ComputerShell.tsx) ...
+interface TopBarProps { petName?: string; showTitle?: boolean; }
+export const TopBar: React.FC<TopBarProps> = ({ petName, showTitle = true }) => {
+  return (
+    <div className={styles.topBar}>
+      <div className={styles.topBarTitleContainer}>
+        
+        {/* --- NUEVOS ICONOS --- */}
+        {/* Elige UNO de los siguientes SVGs. Descomenta el que quieras usar y comenta o elimina los otros. */}
 
-/* Estructura principal del ordenador. Ahora con un borde más físico. */
-.computerStructure {
-  display: flex;
-  width: 100%;
-  max-width: 64rem;
-  height: 650px;
-  max-height: 85vh;
-  
-  /* Color principal de la carcasa */
-  background-color: var(--color-void-blue-deep);
-  
-  /* Efecto 3D para la carcasa */
-  border-radius: 1.25rem;
-  /* Borde multicapa para simular grosor y biselado */
-  border: 1px solid #012a3d; /* Borde exterior muy oscuro */
-  box-shadow: 
-    inset 0 0 0 1px #016f9a,                /* Línea de luz interior */
-    inset 0 0 15px rgba(0,0,0,0.6),        /* Sombra interior profunda */
-    0 1px 2px rgba(1, 165, 211, 0.4),      /* Resalte de luz sutil en el borde superior */
-    0 10px 30px rgba(0, 0, 0, 0.4);       /* Sombra exterior más suave */
-  padding: 1.25rem;
-  gap: 1.25rem;
-  box-sizing: border-box;
+        {/* --- Opción 1: Huevo Simple (Ovalado) --- */}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={styles.topBarIcon}>
+          <path d="M12 2C8.13 2 5 6.03 5 11c0 4.97 3.13 9 7 9s7-4.03 7-9c0-4.97-3.13-9-7-9z" />
+        </svg>
+
+        {/* --- Opción 2: Huevo Ligeramente Roto (Descomenta para usar) --- */}
+        {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={styles.topBarIcon}>
+          <path d="M12 2C8.13 2 5 6.03 5 11c0 2.3.88 4.4 2.33 6.01l-1.11 1.11L7.7 19.6l1.48-1.48.99.99 1.11-1.11.72.72 1.11-1.11.99.99 1.48-1.48 1.48 1.48-1.11 1.11C18.12 15.4 19 13.3 19 11c0-4.97-3.13-9-7-9z" />
+        </svg>
+        */}
+
+        {/* --- Opción 3: Huevo con Criatura Asomándose (Descomenta para usar) --- */}
+        {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={styles.topBarIcon}>
+          <path d="M12 2C8.13 2 5 6.03 5 11c0 2.3.88 4.4 2.33 6.01l-1.11 1.11L7.7 19.6l1.48-1.48.99.99 1.11-1.11.72.72 1.11-1.11.99.99 1.48-1.48 1.48 1.48-1.11 1.11C18.12 15.4 19 13.3 19 11c0-4.97-3.13-9-7-9zm-1-5a1 1 0 11-2 0 1 1 0 012 0zm4 0a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd" />
+          <path d="M12 7a1 1 0 100-2 1 1 0 000 2z" />
+        </svg>
+        */}
+
+
+        {showTitle && <span className={styles.topBarTitle}>{petName ? `Voidpet - ${petName}` : 'Voidpet'}</span>}
+      </div>
+      <div className={styles.statusLight}></div>
+    </div>
+  );
+};
+
+
+interface ComputerShellProps {
+  children: React.ReactNode;
+  showTopBarTitle?: boolean;
+  petName?: string;
+  statsNode?: React.ReactNode;
+  controlsNode?: React.ReactNode;
 }
 
-/* Contenedor del área de la pantalla (bisel) */
-.screenWrapper {
-  flex-grow: 1;
-  display: flex;
-  background-color: var(--color-void-dark);
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  box-shadow: inset 0 3px 8px rgba(0,0,0,0.5);
-}
+const ComputerShell: React.FC<ComputerShellProps> = ({ 
+  children, 
+  showTopBarTitle = true, 
+  petName,
+  statsNode,
+  controlsNode
+}) => {
+  return (
+    <div className={styles.computerStructure}>
+      {/* Columna Izquierda: Pantalla */}
+      <div className={styles.screenWrapper}>
+        <div className={styles.innerScreenFrame}>
+          <TopBar petName={petName} showTitle={showTopBarTitle} />
+          <main className={styles.screenContent}>
+            {children}
+          </main>
+          {statsNode && (
+            <div className={styles.statsBarArea}>
+              {statsNode}
+            </div>
+          )}
+        </div>
+      </div>
+      
+      {/* Columna Derecha: Controles (si existen) */}
+      {controlsNode && (
+        controlsNode
+      )}
+    </div>
+  );
+};
 
-/* Marco interior de la pantalla ("cristal") */
-.innerScreenFrame {
-  flex-grow: 1;
-  background-color: black;
-  border-radius: 0.25rem;
-  overflow: hidden; 
-  display: flex; 
-  flex-direction: column; 
-  border: 2px solid #000;
-}
-
-/* Barra superior dentro de la pantalla */
-.topBar {
-  background-color: rgba(29, 31, 36, 0.6);
-  color: var(--color-text-light);
-  padding: 0.5rem 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid rgba(0,0,0,0.7);
-  flex-shrink: 0;
-}
-.topBarTitleContainer { display: flex; align-items: center; gap: 0.5rem; }
-.topBarIcon { width: 1.25rem; height: 1.25rem; fill: var(--color-void-blue-medium); }
-.topBarTitle { font-weight: 600; font-size: 1rem; }
-.statusLight { width: 0.75rem; height: 0.75rem; background-color: rgba(74, 222, 128, 0.8); border-radius: 9999px; box-shadow: 0 0 5px rgba(74, 222, 128, 0.7); border: 1px solid #2f855a; }
-
-/* Contenido principal de la pantalla, con gradiente oscuro */
-.screenContent {
-  flex-grow: 1;
-  /* Gradiente más oscuro, casi negro, con un toque azulado en el centro */
-  background: radial-gradient(ellipse at center, #0B0F12 0%, #050608 100%);
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow-y: auto;
-  color: var(--color-text-light);
-}
-
-/* Área para la barra de estadísticas */
-.statsBarArea {
-  border-top: 1px solid rgba(0,0,0,0.7);
-  flex-shrink: 0;
-}
+export default ComputerShell;

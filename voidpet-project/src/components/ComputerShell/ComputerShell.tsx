@@ -1,8 +1,8 @@
 // src/components/ComputerShell/ComputerShell.tsx
 import React from "react";
-import styles from "./ComputerShell.module.css"; // Importa el CSS Module actualizado
+import styles from "./ComputerShell.module.css"; // Asegúrate de que este archivo CSS esté actualizado
 
-// ... (El componente TopBar no necesita cambios, puedes mantenerlo aquí o importarlo) ...
+// ... (El resto de tu código de ComputerShell.tsx) ...
 interface TopBarProps {
   petName?: string;
   showTitle?: boolean;
@@ -14,13 +14,31 @@ export const TopBar: React.FC<TopBarProps> = ({
   return (
     <div className={styles.topBar}>
       <div className={styles.topBarTitleContainer}>
+        {/* --- NUEVOS ICONOS --- */}
+        {/* Elige UNO de los siguientes SVGs. Descomenta el que quieras usar y comenta o elimina los otros. */}
+
+        {/* --- Opción 1: Huevo Simple (Ovalado) --- */}
+        {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={styles.topBarIcon}>
+          <path d="M12 2C8.13 2 5 6.03 5 11c0 4.97 3.13 9 7 9s7-4.03 7-9c0-4.97-3.13-9-7-9z" />
+        </svg> */}
+
+        {/* --- Opción 2: Huevo Ligeramente Roto (Descomenta para usar) --- */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
+          fill="currentColor"
           className={styles.topBarIcon}
         >
-          <path d="M12 2.25c-5.162 0-9.755 3.09-11.482 7.5H1.22a.75.75 0 00-.748.8V12a.75.75 0 00.343.642S2.076 13.5 3.06 13.5H3.6c.094.613.296 1.207.595 1.772.915 1.725 2.753 3.028 5.096 3.728C9.839 19.091 12 21.75 12 21.75s2.161-2.659 2.709-2.75c2.343-.699 4.181-2.003 5.096-3.728.299-.565.501-1.159.595-1.772h.541c.982 0 1.224-.608 1.224-.608A.75.75 0 0022.8 12v-.75a.75.75 0 00-.748-.8h-1.273C19.028 5.34 14.437 2.25 12 2.25zM12 3.75a7.713 7.713 0 015.955 2.897L12 12.384l-5.955-5.737A7.713 7.713 0 0112 3.75zM4.514 10.5c.64-.804 1.343-1.518 2.086-2.13l5.4 5.207-5.4 5.207c-.743-.612-1.446-1.326-2.086-2.13v-6.154zm14.972 0v6.154c-.64.804-1.343 1.518 2.086 2.13l-5.4-5.207 5.4-5.207c.743.612 1.446 1.326 2.086 2.13z" />
+          <path d="M12 2C8.13 2 5 6.03 5 11c0 2.3.88 4.4 2.33 6.01l-1.11 1.11L7.7 19.6l1.48-1.48.99.99 1.11-1.11.72.72 1.11-1.11.99.99 1.48-1.48 1.48 1.48-1.11 1.11C18.12 15.4 19 13.3 19 11c0-4.97-3.13-9-7-9z" />
         </svg>
+
+        {/* --- Opción 3: Huevo con Criatura Asomándose (Descomenta para usar) --- */}
+        {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={styles.topBarIcon}>
+          <path d="M12 2C8.13 2 5 6.03 5 11c0 2.3.88 4.4 2.33 6.01l-1.11 1.11L7.7 19.6l1.48-1.48.99.99 1.11-1.11.72.72 1.11-1.11.99.99 1.48-1.48 1.48 1.48-1.11 1.11C18.12 15.4 19 13.3 19 11c0-4.97-3.13-9-7-9zm-1-5a1 1 0 11-2 0 1 1 0 012 0zm4 0a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd" />
+          <path d="M12 7a1 1 0 100-2 1 1 0 000 2z" />
+        </svg>
+        */}
+
         {showTitle && (
           <span className={styles.topBarTitle}>
             {petName ? `Voidpet - ${petName}` : "Voidpet"}
@@ -59,9 +77,7 @@ const ComputerShell: React.FC<ComputerShellProps> = ({
       </div>
 
       {/* Columna Derecha: Controles (si existen) */}
-      {controlsNode &&
-        // No necesita una clase contenedora extra, el componente Controls ya tiene la suya
-        controlsNode}
+      {controlsNode && controlsNode}
     </div>
   );
 };
