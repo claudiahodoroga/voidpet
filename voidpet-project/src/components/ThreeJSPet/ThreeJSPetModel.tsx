@@ -4,7 +4,7 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 interface ThreeJSPetModelProps {
-  // CORREGIDO: El tipo de modelPath debe ser 'string' para aceptar cualquier ruta.
+  // El tipo de modelPath debe ser 'string' para aceptar cualquier ruta.
   modelPath: string;
   onLoad?: () => void;
   onError?: (error: ErrorEvent) => void;
@@ -40,12 +40,15 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
+    // CORRECCIÓN PARA TEXTURAS/COLORES: Esta línea es crucial para que los colores se vean correctamente.
+    // Asegura que los colores del modelo se rendericen en el espacio de color correcto (sRGB).
     renderer.outputEncoding = THREE.sRGBEncoding;
     currentMount.appendChild(renderer.domElement);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+    // CORRECCIÓN DE ILUMINACIÓN: Reducimos un poco la intensidad para evitar que los colores se "quemen" o se vean blancos.
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.75); // Reducido de 0.9
     scene.add(ambientLight);
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0); // Reducido de 1.2
     directionalLight.position.set(5, 10, 7.5);
     scene.add(directionalLight);
 
@@ -66,15 +69,19 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
         const box = new THREE.Box3().setFromObject(model);
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
-        model.position.sub(center);
+        model.position.sub(center); // Centrar el pivote del modelo en el origen
+
+        // CORRECCIÓN DE POSICIÓN: Movemos el modelo un poco hacia abajo en el eje Y.
+        // Un valor negativo lo bajará. Puedes ajustar -0.1 a -0.15, -0.2, etc., para bajarlo más.
+        model.position.y -= size.y * 0.1;
 
         const maxDim = Math.max(size.x, size.y, size.z);
         const fov = camera.fov * (Math.PI / 180);
         let cameraDistance = Math.abs(maxDim / 2 / Math.tan(fov / 2));
         cameraDistance *= 2.0;
 
-        camera.position.set(0, size.y * 0.4, cameraDistance);
-        camera.lookAt(model.position);
+        camera.position.set(0, size.y * 0.4, cameraDistance); // La posición Y de la cámara puede necesitar pequeños ajustes
+        camera.lookAt(model.position); // La cámara ahora apunta a la nueva posición del modelo (ligeramente más abajo)
 
         scene.add(model);
         setIsLoading(false);
