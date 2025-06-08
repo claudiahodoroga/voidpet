@@ -1,6 +1,6 @@
 // src/components/PetDisplay/PetDisplay.tsx
 import React from "react";
-import { ThreeJSPetModel } from "../ThreeJSPet/ThreeJSPetModel"; // Ajusta la ruta si es necesario
+import ThreeJSPetModel from "../ThreeJSPet/ThreeJSPetModel"; // Ajusta la ruta si es necesario
 
 interface PetDisplayProps {
   petName: string;
