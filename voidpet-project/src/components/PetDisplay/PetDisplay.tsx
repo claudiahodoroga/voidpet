@@ -1,17 +1,17 @@
 // src/components/PetDisplay/PetDisplay.tsx
 import React from "react";
+import type { Pet } from "../../models/pet.model"; // Importa el tipo Pet
 // Asegúrate de que la ruta y el tipo de importación sean correctos para tu proyecto.
-// Si ThreeJSPetModel se exporta con 'export default', esta importación es correcta.
 import ThreeJSPetModel from "../ThreeJSPet/ThreeJSPetModel";
 
 interface PetDisplayProps {
-  petName: string;
+  // Ahora el componente recibe el objeto 'pet' completo.
+  pet: Pet;
 }
 
-// Nota: No es necesario cambiar nada dentro del componente,
-// solo cómo lo envolvemos y exportamos al final.
-const PetDisplayComponent: React.FC<PetDisplayProps> = ({ petName }) => {
-  console.log("Renderizando PetDisplay para:", petName); // Este log ahora solo aparecerá si el nombre cambia.
+// El componente principal ahora usa pet.name para mostrar el nombre.
+const PetDisplayComponent: React.FC<PetDisplayProps> = ({ pet }) => {
+  console.log("Renderizando PetDisplay para:", pet.name);
 
   const displayContainerStyle: React.CSSProperties = {
     display: "flex",
@@ -43,9 +43,21 @@ const PetDisplayComponent: React.FC<PetDisplayProps> = ({ petName }) => {
   );
 };
 
-// SOLUCIÓN: Envolvemos el componente con React.memo.
-// Esto evitará que se vuelva a renderizar si la prop 'petName' no ha cambiado.
-export const PetDisplay = React.memo(PetDisplayComponent);
+// SOLUCIÓN: Función de comparación personalizada para React.memo.
+// Le dice a React que solo vuelva a renderizar este componente si el ID o el nombre de la mascota cambian.
+// Ignorará cualquier cambio en las estadísticas o en `lastInteraction`.
+function petPropsAreEqual(
+  prevProps: PetDisplayProps,
+  nextProps: PetDisplayProps
+) {
+  return (
+    prevProps.pet.id === nextProps.pet.id &&
+    prevProps.pet.name === nextProps.pet.name
+  );
+}
 
-// Por si acaso, puedes exportarlo por defecto si así lo usas en otros sitios.
+// Envolvemos el componente con React.memo y le pasamos nuestra función de comparación.
+export const PetDisplay = React.memo(PetDisplayComponent, petPropsAreEqual);
+
+// Exportamos por defecto para mantener la consistencia.
 export default PetDisplay;
