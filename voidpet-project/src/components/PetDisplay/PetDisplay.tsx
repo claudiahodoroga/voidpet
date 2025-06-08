@@ -1,6 +1,7 @@
 // src/components/PetDisplay/PetDisplay.tsx
 import React from "react";
-import ThreeJSPetModel from "../ThreeJSPet/ThreeJSPetModel"; // Ajusta la ruta si es necesario
+// Asegúrate de que la importación sea correcta para tu estructura de proyecto
+import ThreeJSPetModel from "../ThreeJSPet/ThreeJSPetModel";
 
 interface PetDisplayProps {
   petName: string;
@@ -20,14 +21,15 @@ const PetDisplay: React.FC<PetDisplayProps> = ({ petName }) => {
   };
 
   const modelViewerStyle: React.CSSProperties = {
-    width: "90%",
-    height: "80%",
-    maxWidth: "450px",
-    maxHeight: "450px",
+    // Aumentamos el tamaño para que ocupe más espacio disponible
+    width: "100%",
+    height: "100%",
+    maxWidth: "500px", // Aumentado el máximo
+    maxHeight: "500px",
     marginBottom: "1rem",
     position: "relative",
-    // AÑADIDO PARA DEPURACIÓN: Un borde para ver el tamaño real del contenedor del canvas
-    border: "1px solid red",
+    // Borde de depuración eliminado
+    // border: '1px solid red',
   };
 
   const petNameTextStyle: React.CSSProperties = {

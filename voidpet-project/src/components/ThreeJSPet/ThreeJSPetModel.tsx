@@ -1,4 +1,4 @@
-// src/components/ThreeJSPetModel/ThreeJSPetModel.tsx
+// src/components/ThreeJSPet/ThreeJSPetModel.tsx
 import React, { useRef, useEffect, useState } from "react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
@@ -37,7 +37,6 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
 
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
-    // Solución para texturas y aviso de desuso: usa outputColorSpace
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     currentMount.appendChild(renderer.domElement);
 
@@ -51,7 +50,7 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
     const clock = new THREE.Clock();
     let mixer: THREE.AnimationMixer | null = null;
 
-    // --- Carga del Modelo GLTF (con ajuste de posición) ---
+    // --- Carga del Modelo GLTF ---
     const loader = new GLTFLoader();
     setIsLoading(true);
     setErrorLoading(null);
@@ -68,15 +67,16 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
         model.position.sub(center);
 
         // 2. Ajuste de posición vertical
-        model.position.y = -0.3; // Ajusta este valor para mover el modelo arriba/abajo
+        // Ajusta este valor para mover el modelo arriba/abajo en la pantalla
+        model.position.y -= size.y * 0.4;
 
         const maxDim = Math.max(size.x, size.y, size.z);
         const fov = camera.fov * (Math.PI / 180);
         let cameraDistance = Math.abs(maxDim / 2 / Math.tan(fov / 2));
-        cameraDistance *= 2.0;
+        cameraDistance *= 2.2; // Ajusta este factor para el zoom
 
-        camera.position.set(0, 0.5, cameraDistance);
-        camera.lookAt(model.position);
+        camera.position.set(0, 0, cameraDistance); // Cámara a la altura del nuevo centro del modelo
+        camera.lookAt(model.position); // Apuntar la cámara a la nueva posición del modelo
 
         scene.add(model);
         setIsLoading(false);
@@ -101,17 +101,13 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
       const delta = clock.getDelta();
-      if (mixer) {
-        mixer.update(delta);
-      }
+      if (mixer) mixer.update(delta);
       renderer.render(scene, camera);
     };
 
     // --- MEJORA: ResizeObserver para ajustar el canvas ---
     const resizeObserver = new ResizeObserver((entries) => {
-      if (!entries || entries.length === 0) {
-        return;
-      }
+      if (!entries || entries.length === 0) return;
       const { width, height } = entries[0].contentRect;
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
