@@ -1,8 +1,8 @@
 // src/components/ComputerShell/ComputerShell.tsx
 import React from "react";
-import styles from "./ComputerShell.module.css";
+import styles from "./ComputerShell.module.css"; // Importa el CSS Module actualizado
 
-// TopBar component (can be in the same file or imported)
+// ... (El componente TopBar no necesita cambios, puedes mantenerlo aquí o importarlo) ...
 interface TopBarProps {
   petName?: string;
   showTitle?: boolean;
@@ -33,11 +33,11 @@ export const TopBar: React.FC<TopBarProps> = ({
 };
 
 interface ComputerShellProps {
-  children: React.ReactNode; // Main screen content
+  children: React.ReactNode;
   showTopBarTitle?: boolean;
   petName?: string;
-  statsNode?: React.ReactNode; // Optional node for stats bar
-  controlsNode?: React.ReactNode; // Optional node for controls panel
+  statsNode?: React.ReactNode;
+  controlsNode?: React.ReactNode;
 }
 
 const ComputerShell: React.FC<ComputerShellProps> = ({
@@ -47,33 +47,21 @@ const ComputerShell: React.FC<ComputerShellProps> = ({
   statsNode,
   controlsNode,
 }) => {
-  // Determine screen area style based on whether controls are present
-  const screenAreaClass = controlsNode
-    ? styles.screenAreaWithControls
-    : styles.screenArea;
-
   return (
-    <div className={styles.terminalCasing}>
-      <div className={styles.computerStructure}>
-        <div className={screenAreaClass}>
-          {" "}
-          {/* Use dynamic class here */}
-          <div className={styles.innerScreenFrame}>
-            <TopBar petName={petName} showTitle={showTopBarTitle} />
-            <main className={styles.screenContent}>{children}</main>
-            {statsNode && (
-              <footer className={styles.statsBarArea}>{statsNode}</footer>
-            )}
-          </div>
+    <div className={styles.computerStructure}>
+      {/* Columna Izquierda: Pantalla */}
+      <div className={styles.screenWrapper}>
+        <div className={styles.innerScreenFrame}>
+          <TopBar petName={petName} showTitle={showTopBarTitle} />
+          <main className={styles.screenContent}>{children}</main>
+          {statsNode && <div className={styles.statsBarArea}>{statsNode}</div>}
         </div>
-        {controlsNode && (
-          <aside className={styles.controlPanelArea}>
-            {" "}
-            {/* Use a more specific class if needed */}
-            {controlsNode}
-          </aside>
-        )}
       </div>
+
+      {/* Columna Derecha: Controles (si existen) */}
+      {controlsNode &&
+        // No necesita una clase contenedora extra, el componente Controls ya tiene la suya
+        controlsNode}
     </div>
   );
 };

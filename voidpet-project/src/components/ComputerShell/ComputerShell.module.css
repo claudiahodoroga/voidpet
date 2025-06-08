@@ -1,202 +1,79 @@
-/* src/components/ComputerShell/ComputerShell.module.css */
-
-
-/* Styles for the outermost physical terminal casing */
-.terminalCasing {
-  background: linear-gradient(135deg, var(--color-terminal-body-start), var(--color-terminal-body-end));
-  padding: 1rem; /* approx p-4 */
-  border-radius: 1.5rem; /* approx rounded-3xl */
-  box-shadow: 
-    inset 0 2px 4px rgba(255, 255, 255, 0.3), /* Inner highlight */
-    inset 0 -2px 4px rgba(0, 0, 0, 0.2),   /* Inner shadow */
-    0 10px 20px rgba(0, 0, 0, 0.3),        /* Outer shadow */
-    0 6px 6px rgba(0, 0, 0, 0.25);
-  border-top: 2px solid var(--color-terminal-body-start);
-  border-left: 2px solid var(--color-terminal-body-start);
-  border-bottom: 8px solid #888888; /* Darker bottom for 3D */
-  border-right: 8px solid #888888;  /* Darker right for 3D */
-  /* transform: perspective(1000px) rotateX(1deg); */ /* Subtle 3D tilt - optional */
+.computerStructure {
+  display: flex;
   width: 100%;
   max-width: 64rem; /* approx max-w-5xl */
+  height: 650px;
+  max-height: 85vh;
+  
+  /* Color de la carcasa unificada */
+  background-color: var(--color-void-blue-deep);
+  
+  /* Efecto 3D para la carcasa */
+  border-radius: 1.25rem; /* Bordes más redondeados */
+  border: 1px solid #01374f; /* Borde sutil */
+  box-shadow: 
+    inset 0 2px 4px rgba(1, 165, 211, 0.2),  /* Sombra interior azulada para dar volumen */
+    0 10px 25px rgba(0, 0, 0, 0.4);       /* Sombra exterior más pronunciada */
+  padding: 1.25rem; /* Espacio interior */
+  gap: 1.25rem; /* Espacio entre la pantalla y el panel de control */
   box-sizing: border-box;
 }
 
-/* Main Computer Structure (Screen + Side Panel Area) */
-.computerStructure {
-  display: flex;
-  border-radius: 0.75rem; /* approx rounded-xl */
-  box-shadow: inset 0 0 15px rgba(0,0,0,0.5); /* Inner shadow to sink the screen area */
-  overflow: hidden;
-  height: 650px; /* Fixed height */
-  max-height: 80vh; /* Max height relative to viewport */
-}
-
-/* Screen Area with multiple bezels for depth */
-.screenArea {
+/* Contenedor del área de la pantalla (bisel + pantalla interior) */
+.screenWrapper {
   flex-grow: 1;
   display: flex;
-  flex-direction: column;
-  background-color: var(--color-void-dark);
-  padding: 0.5rem; /* approx p-2 */
-  border-top: 2px solid var(--color-bezel-medium);
-  border-left: 2px solid var(--color-bezel-medium);
-  border-bottom: 4px solid var(--color-bezel-dark);
-  border-right: 4px solid var(--color-bezel-dark);
-  border-radius: 0.6rem 0 0 0.6rem; /* Rounded on the left side, assuming controls are on the right */
+  background-color: var(--color-void-dark); /* Color del bisel oscuro */
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  box-shadow: inset 0 3px 8px rgba(0,0,0,0.5); /* Sombra interior profunda para hundir la pantalla */
 }
 
-/* Inner Screen Frame - the actual "glass" area */
+/* Marco interior de la pantalla ("cristal") */
 .innerScreenFrame {
   flex-grow: 1;
   background-color: black;
-  border-radius: 0.375rem; /* approx rounded-md */
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.7); /* Inner shadow for screen depth */
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  border: 2px solid var(--color-screen-border);
+  border-radius: 0.25rem;
+  overflow: hidden; 
+  display: flex; 
+  flex-direction: column; 
+  border: 2px solid #000;
 }
 
-/* Styles for the TopBar component */
+/* Barra superior dentro de la pantalla */
 .topBar {
-  background-color: rgba(42, 42, 48, 0.6); /* Semi-transparent dark gray, similar to bg-gray-800/60 */
-  /* backdrop-filter: blur(4px); For frosted glass effect, if desired and supported */
+  background-color: rgba(29, 31, 36, 0.6); /* bg-void-dark con opacidad */
   color: var(--color-text-light);
-  padding: 0.5rem 1rem; /* approx px-4 py-2 */
+  padding: 0.5rem 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 2px solid rgba(0,0,0,0.5); /* Darker border for depth */
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* Subtle shadow below top bar */
-  font-family: var(--font-primary);
+  border-bottom: 1px solid rgba(0,0,0,0.7);
+  flex-shrink: 0; /* Evita que se encoja */
 }
+/* ... (otros estilos de topBar como .topBarTitleContainer, .topBarIcon, etc. permanecen igual) ... */
+.topBarTitleContainer { display: flex; align-items: center; gap: 0.5rem; }
+.topBarIcon { width: 1.25rem; height: 1.25rem; fill: var(--color-void-blue-medium); }
+.topBarTitle { font-weight: 600; font-size: 1rem; }
+.statusLight { width: 0.75rem; height: 0.75rem; background-color: rgba(74, 222, 128, 0.8); border-radius: 9999px; box-shadow: 0 0 5px rgba(74, 222, 128, 0.7); border: 1px solid #2f855a; }
 
-.topBarTitleContainer {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem; /* approx space-x-2 */
-}
 
-.topBarIcon {
-  width: 1.25rem; /* approx w-5 */
-  height: 1.25rem; /* approx h-5 */
-  fill: var(--color-void-blue-medium); /* Use fill for SVG */
-}
-
-.topBarTitle {
-  font-weight: 600; /* approx font-semibold */
-  font-size: 0.875rem; /* approx text-sm or text-base */
-}
-
-@media (min-width: 640px) { /* sm breakpoint */
-  .topBarTitle {
-    font-size: 1rem;
-  }
-}
-
-.statusLight {
-  width: 0.75rem; /* approx w-3 */
-  height: 0.75rem; /* approx h-3 */
-  background-color: rgba(74, 222, 128, 0.8); /* approx bg-green-500/80 */
-  border-radius: 9999px; /* approx rounded-full */
-  box-shadow: 0 0 5px rgba(74, 222, 128, 0.7); /* Glow effect */
-  border: 1px solid #2f855a; /* Darker green border */
-  /* animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; */ /* Optional pulse animation */
-}
-
-/* Main Content Area where children (form or pet view) will be rendered */
+/* Contenido principal de la pantalla */
 .screenContent {
-  flex-grow: 1;
-  background: radial-gradient(ellipse at center, var(--color-screen-gradient-start) 0%, var(--color-screen-gradient-end) 100%);
-  padding: 1.5rem; /* approx p-6 */
+  flex-grow: 1; /* Ocupa el espacio vertical disponible */
+  background: var(--gradient-screen);
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow-y: auto; /* Enable scroll if content overflows */
+  overflow-y: auto;
   color: var(--color-text-light);
-  font-family: var(--font-primary);
 }
 
+/* Área para la barra de estadísticas */
 .statsBarArea {
-  /* This will be the direct child of innerScreenFrame for the bottom bar */
-  /* Styling for this area is mostly handled by StatsDisplay.module.css,
-     but ComputerShell might define its container properties if needed.
-     For now, StatsDisplay's own container style should be sufficient. */
-  border-top: 2px solid rgba(0,0,0,0.6); /* Separator line from screen content */
+  border-top: 1px solid rgba(0,0,0,0.7);
+  flex-shrink: 0; /* Evita que se encoja */
 }
-
-.controlPanelArea {
-  /* This will be a direct child of computerStructure for the side panel */
-  /* Styling is handled by Controls.module.css */
-  /* Ensure computerStructure can accommodate it (e.g., using flex) */
-}
-
-/* Ensure .computerStructure is flex if not already */
-.computerStructure {
-  display: flex;
-  border-radius: 0.75rem; /* approx rounded-xl */
-  box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
-  overflow: hidden;
-  height: 650px;
-  max-height: 80vh;
-}
-
-/* Ensure .screenArea takes up remaining space if controls are present */
-.screenArea {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--color-void-dark);
-  padding: 0.5rem;
-  border-top: 2px solid var(--color-bezel-medium);
-  border-left: 2px solid var(--color-bezel-medium);
-  border-bottom: 4px solid var(--color-bezel-dark);
-  /* border-right is removed if controls are on the right, or adjusted */
-  /* If controls are present, screenArea might not need right border or rounding */
-  border-radius: 0.6rem 0 0 0.6rem; /* Default: rounded left, assuming controls on right */
-}
-
-/* New style if controls are present, screenArea might not be rounded on the right */
-.screenAreaWithControls {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--color-void-dark);
-  padding: 0.5rem;
-  border-top: 2px solid var(--color-bezel-medium);
-  border-left: 2px solid var(--color-bezel-medium);
-  border-bottom: 4px solid var(--color-bezel-dark);
-  border-right: 2px solid var(--color-bezel-dark); /* Add a right border if controls are next to it */
-  border-radius: 0.6rem 0 0 0.6rem; /* Keep left rounding */
-}
-
-/* Optional pulse animation for status light */
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: .5;
-  }
-}
-
-/* Basic scrollbar styling for a darker theme (optional) */
-.screenContent::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-.screenContent::-webkit-scrollbar-track {
-  background: var(--color-bezel-dark); 
-  border-radius: 10px;
-}
-.screenContent::-webkit-scrollbar-thumb {
-  background-color: var(--color-void-blue-medium); 
-  border-radius: 10px;
-  border: 2px solid var(--color-bezel-dark); 
-}
-.screenContent::-webkit-scrollbar-thumb:hover {
-  background-color: #02b8e8; 
-}
-
