@@ -40,15 +40,18 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-    // CORRECCIÓN PARA TEXTURAS/COLORES: Esta línea es crucial para que los colores se vean correctamente.
-    // Asegura que los colores del modelo se rendericen en el espacio de color correcto (sRGB).
-    renderer.outputEncoding = THREE.sRGBEncoding;
+
+    // SOLUCIÓN PARA TEXTURAS Y AVISO DE DESUSO:
+    // En versiones recientes de Three.js (r152+), `outputEncoding` ha sido reemplazado por `outputColorSpace`.
+    // Esto es crucial para que los colores del modelo GLB se rendericen correctamente.
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+
     currentMount.appendChild(renderer.domElement);
 
-    // CORRECCIÓN DE ILUMINACIÓN: Reducimos un poco la intensidad para evitar que los colores se "quemen" o se vean blancos.
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.75); // Reducido de 0.9
+    // Iluminación (valores mantenidos de la corrección anterior, que son buenos para no "quemar" la textura)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.75);
     scene.add(ambientLight);
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0); // Reducido de 1.2
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
     directionalLight.position.set(5, 10, 7.5);
     scene.add(directionalLight);
 
@@ -69,19 +72,24 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
         const box = new THREE.Box3().setFromObject(model);
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
-        model.position.sub(center); // Centrar el pivote del modelo en el origen
 
-        // CORRECCIÓN DE POSICIÓN: Movemos el modelo un poco hacia abajo en el eje Y.
-        // Un valor negativo lo bajará. Puedes ajustar -0.1 a -0.15, -0.2, etc., para bajarlo más.
-        model.position.y -= size.y * 0.7;
+        // 1. Centrar el modelo en el origen del mundo. Su pivote ahora está en (0,0,0).
+        model.position.sub(center);
+
+        // 2. SOLUCIÓN DE POSICIÓN: Movemos el modelo hacia abajo en el eje Y.
+        //    Ajusta este valor para subir o bajar el modelo en la pantalla.
+        //    Un valor más negativo (ej: -0.4) lo bajará más.
+        model.position.y = -0.3;
 
         const maxDim = Math.max(size.x, size.y, size.z);
         const fov = camera.fov * (Math.PI / 180);
         let cameraDistance = Math.abs(maxDim / 2 / Math.tan(fov / 2));
-        cameraDistance *= 2.0;
+        cameraDistance *= 2.0; // Ajusta este factor para el zoom
 
-        camera.position.set(0, size.y * 0.4, cameraDistance); // La posición Y de la cámara puede necesitar pequeños ajustes
-        camera.lookAt(model.position); // La cámara ahora apunta a la nueva posición del modelo (ligeramente más abajo)
+        // La cámara ahora apunta ligeramente por encima del origen para una mejor vista.
+        // Su posición Y ya no depende del tamaño del modelo, lo que da un encuadre más estable.
+        camera.position.set(0, 0.5, cameraDistance);
+        camera.lookAt(model.position); // La cámara apunta a la nueva posición del modelo (que está más abajo)
 
         scene.add(model);
         setIsLoading(false);
