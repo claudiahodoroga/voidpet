@@ -12,7 +12,7 @@
 
 /* Estilo de los botones */
 .controlButton {
-  width: 50%;
+  width: 100%;
   padding: 0.75rem 1rem;
   border-radius: 0.45rem; 
   font-weight: 600;
