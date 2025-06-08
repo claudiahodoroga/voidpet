@@ -54,7 +54,7 @@ const PetDisplay: React.FC<PetDisplayProps> = ({ petName }) => {
     <div style={displayContainerStyle}>
       <div style={modelViewerStyle}>
         <ThreeJSPetModel
-          modelPath="/assets/models/VirtualPetAnimado.glb" // Asegúrate de que esta ruta sea correcta
+          modelPath="/assets/models/VirtualPet2.glb" // Asegúrate de que esta ruta sea correcta
           onLoad={handleModelLoad}
           onError={handleModelError}
         />
