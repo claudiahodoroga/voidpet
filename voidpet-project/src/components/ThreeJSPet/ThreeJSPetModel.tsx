@@ -78,7 +78,7 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
         // AJUSTE DE POSICIÓN VERTICAL:
         // Esta línea ahora debería mover el modelo visiblemente.
         // Prueba con diferentes valores aquí.
-        model.position.y = -0.5;
+        model.position.y = -1;
 
         scene.add(model);
 
