@@ -24,7 +24,6 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
     const currentMount = mountRef.current;
     let animationFrameId: number;
     let renderer: THREE.WebGLRenderer;
-    let boxHelper: THREE.BoxHelper | null = null; // Declarado aquí para acceder en `animate`
 
     // --- Configuración de la Escena de Three.js ---
     const scene = new THREE.Scene();
@@ -42,18 +41,11 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
     currentMount.appendChild(renderer.domElement);
 
     // Iluminación
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.75);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
     scene.add(ambientLight);
     const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
     directionalLight.position.set(5, 10, 7.5);
     scene.add(directionalLight);
-
-    // --- AYUDAS DE DEPURACIÓN ---
-    const axesHelper = new THREE.AxesHelper(2);
-    scene.add(axesHelper);
-    const gridHelper = new THREE.GridHelper(10, 10);
-    scene.add(gridHelper);
-    // --- FIN DE AYUDAS DE DEPURACIÓN ---
 
     const clock = new THREE.Clock();
     let mixer: THREE.AnimationMixer | null = null;
@@ -81,11 +73,6 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
         model.position.y = -1;
 
         scene.add(model);
-
-        // SOLUCIÓN 1: Usa BoxHelper en lugar de Box3Helper y créalo después de añadir el modelo a la escena.
-        // BoxHelper seguirá al objeto `model`.
-        boxHelper = new THREE.BoxHelper(model, 0xffff00); // Caja amarilla
-        scene.add(boxHelper);
 
         const maxDim = Math.max(size.x, size.y, size.z);
         const fov = camera.fov * (Math.PI / 180);
@@ -119,11 +106,6 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
       animationFrameId = requestAnimationFrame(animate);
       const delta = clock.getDelta();
       if (mixer) mixer.update(delta);
-
-      // SOLUCIÓN 3: Actualiza el BoxHelper en cada frame
-      if (boxHelper) {
-        boxHelper.update();
-      }
 
       renderer.render(scene, camera);
     };
