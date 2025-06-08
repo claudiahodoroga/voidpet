@@ -4,11 +4,9 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 interface ThreeJSPetModelProps {
-  // El tipo de modelPath debe ser 'string' para aceptar cualquier ruta.
   modelPath: string;
   onLoad?: () => void;
   onError?: (error: ErrorEvent) => void;
-  // animationName?: string; // Prop futura para controlar animaciones
 }
 
 const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
@@ -25,9 +23,9 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
 
     const currentMount = mountRef.current;
     let animationFrameId: number;
+    let renderer: THREE.WebGLRenderer;
 
     // --- Configuración de la Escena de Three.js ---
-
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       50,
@@ -37,18 +35,13 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
     );
     camera.position.set(0, 1, 5);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
+    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
-
-    // SOLUCIÓN PARA TEXTURAS Y AVISO DE DESUSO:
-    // En versiones recientes de Three.js (r152+), `outputEncoding` ha sido reemplazado por `outputColorSpace`.
-    // Esto es crucial para que los colores del modelo GLB se rendericen correctamente.
+    // Solución para texturas y aviso de desuso: usa outputColorSpace
     renderer.outputColorSpace = THREE.SRGBColorSpace;
-
     currentMount.appendChild(renderer.domElement);
 
-    // Iluminación (valores mantenidos de la corrección anterior, que son buenos para no "quemar" la textura)
+    // Iluminación
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.75);
     scene.add(ambientLight);
     const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
@@ -58,8 +51,7 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
     const clock = new THREE.Clock();
     let mixer: THREE.AnimationMixer | null = null;
 
-    // --- Carga del Modelo GLTF ---
-
+    // --- Carga del Modelo GLTF (con ajuste de posición) ---
     const loader = new GLTFLoader();
     setIsLoading(true);
     setErrorLoading(null);
@@ -68,43 +60,32 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
       modelPath,
       (gltf) => {
         const model = gltf.scene;
-
         const box = new THREE.Box3().setFromObject(model);
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
 
-        // 1. Centrar el modelo en el origen del mundo. Su pivote ahora está en (0,0,0).
+        // 1. Centrar el modelo en el origen del mundo
         model.position.sub(center);
 
-        // 2. SOLUCIÓN DE POSICIÓN: Movemos el modelo hacia abajo en el eje Y.
-        //    Ajusta este valor para subir o bajar el modelo en la pantalla.
-        //    Un valor más negativo (ej: -0.4) lo bajará más.
-        model.position.y = -1;
+        // 2. Ajuste de posición vertical
+        model.position.y = -0.3; // Ajusta este valor para mover el modelo arriba/abajo
 
         const maxDim = Math.max(size.x, size.y, size.z);
         const fov = camera.fov * (Math.PI / 180);
         let cameraDistance = Math.abs(maxDim / 2 / Math.tan(fov / 2));
-        cameraDistance *= 2.0; // Ajusta este factor para el zoom
+        cameraDistance *= 2.0;
 
-        // La cámara ahora apunta ligeramente por encima del origen para una mejor vista.
-        // Su posición Y ya no depende del tamaño del modelo, lo que da un encuadre más estable.
         camera.position.set(0, 0.5, cameraDistance);
-        camera.lookAt(model.position); // La cámara apunta a la nueva posición del modelo (que está más abajo)
+        camera.lookAt(model.position);
 
         scene.add(model);
         setIsLoading(false);
         if (onLoad) onLoad();
-        console.log("Modelo 3D cargado exitosamente.");
 
         if (gltf.animations && gltf.animations.length) {
-          console.log(
-            `Encontradas ${gltf.animations.length} animaciones. Reproduciendo la primera: "${gltf.animations[0].name}".`
-          );
           mixer = new THREE.AnimationMixer(model);
           const action = mixer.clipAction(gltf.animations[0]);
           action.play();
-        } else {
-          console.log("El modelo no contiene animaciones.");
         }
       },
       undefined,
@@ -116,15 +97,7 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
       }
     );
 
-    const handleResize = () => {
-      if (currentMount) {
-        camera.aspect = currentMount.clientWidth / currentMount.clientHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
-      }
-    };
-    window.addEventListener("resize", handleResize);
-
+    // --- Bucle de Animación y Limpieza ---
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
       const delta = clock.getDelta();
@@ -133,18 +106,33 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
       }
       renderer.render(scene, camera);
     };
+
+    // --- MEJORA: ResizeObserver para ajustar el canvas ---
+    const resizeObserver = new ResizeObserver((entries) => {
+      if (!entries || entries.length === 0) {
+        return;
+      }
+      const { width, height } = entries[0].contentRect;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+    });
+
+    resizeObserver.observe(currentMount);
     animate();
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      resizeObserver.disconnect();
       cancelAnimationFrame(animationFrameId);
+
       scene.traverse((object) => {
         if (object instanceof THREE.Mesh) {
           object.geometry.dispose();
-          if (Array.isArray(object.material)) {
-            object.material.forEach((material) => material.dispose());
-          } else if (object.material) {
-            object.material.dispose();
+          const material = object.material as THREE.Material | THREE.Material[];
+          if (Array.isArray(material)) {
+            material.forEach((mat) => mat.dispose());
+          } else if (material) {
+            material.dispose();
           }
         }
       });
@@ -152,7 +140,6 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
       if (currentMount && renderer.domElement.parentNode === currentMount) {
         currentMount.removeChild(renderer.domElement);
       }
-      console.log("ThreeJSPetModel desmontado y limpiado.");
     };
   }, [modelPath, onLoad, onError]);
 
@@ -199,7 +186,6 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
           Error: {errorLoading}
         </div>
       )}
-      {/* El lienzo de Three.js se adjuntará aquí */}
     </div>
   );
 };
