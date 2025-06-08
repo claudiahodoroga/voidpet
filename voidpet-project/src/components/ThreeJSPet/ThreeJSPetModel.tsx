@@ -24,6 +24,7 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
     const currentMount = mountRef.current;
     let animationFrameId: number;
     let renderer: THREE.WebGLRenderer;
+    let boxHelper: THREE.BoxHelper | null = null; // Declarado aquí para acceder en `animate`
 
     // --- Configuración de la Escena de Three.js ---
     const scene = new THREE.Scene();
@@ -66,31 +67,35 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
       modelPath,
       (gltf) => {
         const model = gltf.scene;
+
+        // El cálculo del bounding box es solo para obtener el tamaño
         const box = new THREE.Box3().setFromObject(model);
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
 
-        console.log("Bounding Box - Centro:", center);
-        console.log("Bounding Box - Tamaño:", size);
+        model.position.sub(center); // Centrar el pivote del modelo
 
-        model.position.sub(center);
-        model.position.y -= size.y * 0.1;
+        // AJUSTE DE POSICIÓN VERTICAL:
+        // Esta línea ahora debería mover el modelo visiblemente.
+        // Prueba con diferentes valores aquí.
+        model.position.y = -0.5;
 
-        console.log("Posición final del modelo:", model.position);
+        scene.add(model);
+
+        // SOLUCIÓN 1: Usa BoxHelper en lugar de Box3Helper y créalo después de añadir el modelo a la escena.
+        // BoxHelper seguirá al objeto `model`.
+        boxHelper = new THREE.BoxHelper(model, 0xffff00); // Caja amarilla
+        scene.add(boxHelper);
 
         const maxDim = Math.max(size.x, size.y, size.z);
         const fov = camera.fov * (Math.PI / 180);
         let cameraDistance = Math.abs(maxDim / 2 / Math.tan(fov / 2));
         cameraDistance *= 2.2;
 
-        camera.position.set(0, 0, cameraDistance);
-        camera.lookAt(model.position);
-
-        scene.add(model);
-
-        // CORREGIDO (Línea 86): Se crea una nueva instancia de THREE.Color.
-        const boxHelper = new THREE.Box3Helper(box, new THREE.Color(0xffff00)); // Caja amarilla
-        scene.add(boxHelper);
+        // SOLUCIÓN 2: Fija la posición de la cámara y a dónde mira.
+        // Ya no seguirá al modelo, dándote un punto de vista estable.
+        camera.position.set(0, 0.4, cameraDistance); // Sube un poco la cámara para una mejor vista
+        camera.lookAt(0, 0, 0); // La cámara ahora mira al centro de la escena (origen)
 
         setIsLoading(false);
         if (onLoad) onLoad();
@@ -114,6 +119,12 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
       animationFrameId = requestAnimationFrame(animate);
       const delta = clock.getDelta();
       if (mixer) mixer.update(delta);
+
+      // SOLUCIÓN 3: Actualiza el BoxHelper en cada frame
+      if (boxHelper) {
+        boxHelper.update();
+      }
+
       renderer.render(scene, camera);
     };
 
@@ -131,7 +142,6 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
     return () => {
       resizeObserver.disconnect();
       cancelAnimationFrame(animationFrameId);
-      // CORREGIDO (Línea 126): Se añade la lógica de limpieza que faltaba.
       scene.traverse((object) => {
         if (object instanceof THREE.Mesh) {
           object.geometry.dispose();
@@ -160,7 +170,6 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
         overflow: "hidden",
       }}
     >
-      {/* CORREGIDO (Línea 137): Se reemplaza '...' con los estilos completos. */}
       {isLoading && (
         <div
           style={{
@@ -177,7 +186,6 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
           Cargando Modelo 3D...
         </div>
       )}
-      {/* CORREGIDO (Línea 140): Se reemplaza '...' con los estilos completos. */}
       {errorLoading && (
         <div
           style={{
