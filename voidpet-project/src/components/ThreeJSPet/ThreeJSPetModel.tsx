@@ -68,7 +68,7 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
 
         // 2. Ajuste de posición vertical
         // Ajusta este valor para mover el modelo arriba/abajo en la pantalla
-        model.position.y -= size.y * 0.1;
+        model.position.y -= size.y * 0.05;
 
         const maxDim = Math.max(size.x, size.y, size.z);
         const fov = camera.fov * (Math.PI / 180);
