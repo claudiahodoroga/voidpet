@@ -1,49 +1,67 @@
 // src/components/PetDisplay/PetDisplay.tsx
 import React from "react";
-// import styles from './PetDisplay.module.css'; // Create this if more complex styling is needed
+import ThreeJSPetModel from "../ThreeJSPet/ThreeJSPetModel"; // Ajusta la ruta si es necesario
 
 interface PetDisplayProps {
   petName: string;
-  // Later, you might pass the 3D model reference or animation state here
+  // En el futuro, podrías pasar aquí otras propiedades del pet
+  // si influyen en la apariencia o animación del modelo.
 }
 
 const PetDisplay: React.FC<PetDisplayProps> = ({ petName }) => {
-  const containerStyle: React.CSSProperties = {
+  // Estilo para el contenedor principal del área de visualización de la mascota
+  const displayContainerStyle: React.CSSProperties = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center", // Centra el contenido verticalmente
     textAlign: "center",
-    color: "var(--color-text-light, #E0F2FE)", // Use CSS variable
+    color: "var(--color-text-light, #E0F2FE)", // Usa la variable CSS global para el color del texto
     width: "100%",
-    height: "100%", // Take up available space in the screen content area
+    height: "100%", // Asegura que este contenedor ocupe todo el espacio disponible
+    overflow: "hidden", // Evita que el lienzo 3D se desborde
   };
 
-  const petPlaceholderStyle: React.CSSProperties = {
-    width: "12rem", // approx w-48
-    height: "12rem", // approx h-48
-    backgroundColor: "rgba(1, 165, 211, 0.2)", // var(--color-void-blue-medium) with alpha
-    borderRadius: "50%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: "1.5rem", // approx mb-6
-    boxShadow: "0 0 20px rgba(1, 165, 211, 0.3)",
-    border: "2px solid rgba(1, 165, 211, 0.4)",
+  // Estilo para el contenedor específico del visor del modelo 3D
+  const modelViewerStyle: React.CSSProperties = {
+    width: "90%", // Ocupa la mayor parte del espacio
+    height: "80%",
+    maxWidth: "450px",
+    maxHeight: "450px",
+    marginBottom: "1rem", // Espacio entre el modelo y el texto de abajo
+    position: "relative", // Necesario para los mensajes de carga/error
   };
 
-  const petTextStyle: React.CSSProperties = {
-    fontSize: "1.25rem", // approx text-xl
-    textShadow: "0 1px 3px rgba(0,0,0,0.5)",
+  // Estilo para el texto con el nombre de la mascota
+  const petNameTextStyle: React.CSSProperties = {
+    fontSize: "1.1rem",
+    fontWeight: 500,
+    marginTop: "0.5rem",
+    textShadow: "0 1px 2px rgba(0,0,0,0.4)",
+  };
+
+  // Funciones callback para manejar la carga y errores del modelo
+  const handleModelLoad = () => {
+    console.log(`PetDisplay: Modelo 3D para ${petName} cargado.`);
+  };
+
+  const handleModelError = (error: ErrorEvent) => {
+    console.error(
+      `PetDisplay: Error al cargar modelo 3D para ${petName}:`,
+      error
+    );
   };
 
   return (
-    <div style={containerStyle}>
-      <div style={petPlaceholderStyle}>
-        <span style={{ fontSize: "1.5rem", opacity: 0.7 }}>PET</span>
+    <div style={displayContainerStyle}>
+      <div style={modelViewerStyle}>
+        <ThreeJSPetModel
+          modelPath="/assets/models/VirtualPetAnimado.glb" // ¡IMPORTANTE! Asegúrate de que esta ruta sea correcta
+          onLoad={handleModelLoad}
+          onError={handleModelError}
+        />
       </div>
-      <p style={petTextStyle}>This is {petName}!</p>
-      {/* You can add more status text or animations here later */}
+      <p style={petNameTextStyle}>¡Este es {petName}!</p>
     </div>
   );
 };
