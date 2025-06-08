@@ -1,18 +1,13 @@
 /* src/components/PetNameForm/PetNameForm.module.css */
 
-/* Re-using color variables, assuming they might be defined globally or imported if needed.
-   For standalone module, you might redefine them or import from a shared variables file.
-   For simplicity here, I'll assume access to the color concept.
-*/
 .petNameFormContainer {
   width: 100%;
-  max-width: 28rem; /* approx max-w-md */
+  max-width: 28rem; 
   text-align: center;
   padding: 1rem;
   font-family: var(--font-primary);
-  /* Simple fade-in animation */
   animation: fadeIn 0.7s ease-out forwards;
-  opacity: 0; /* Start transparent for animation */
+  opacity: 0; 
 }
 
 @keyframes fadeIn {
@@ -21,26 +16,26 @@
 }
 
 .title {
-  font-size: 1.875rem; /* approx text-3xl */
-  font-weight: 600; /* approx font-semibold */
+  font-size: 1.875rem; 
+  font-weight: 600; 
   color: var(--color-text-light);
   margin-bottom: 1rem;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.5); /* filter drop-shadow-md */
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5); 
 }
 
 .subtitle {
-  color: var(--color-text-darker); /* Lighter text for subtitle */
+  color: var(--color-text-darker); 
   margin-bottom: 2rem;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.3); /* filter drop-shadow-sm */
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3); 
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* approx space-y-6 */
+  gap: 1.5rem; 
 }
 
-.inputLabel { /* For screen readers */
+.inputLabel { /* Para screen readers */
   position: absolute;
   width: 1px;
   height: 1px;
@@ -54,24 +49,24 @@
 
 .inputField {
   width: 100%;
-  padding: 0.75rem 1rem; /* approx px-4 py-3 */
-  border-radius: 0.5rem; /* approx rounded-lg */
-  background-color: rgba(42, 42, 48, 0.7); /* Darker, semi-transparent bg, similar to bg-gray-700/70 */
+  padding: 0.75rem 1rem; 
+  border-radius: 0.5rem; 
+  background-color: rgba(42, 42, 48, 0.7); 
   color: var(--color-text-light);
-  border: 2px solid rgba(0,0,0,0.5); /* Darker border, similar to border-gray-900/50 */
+  border: 2px solid rgba(0,0,0,0.5); 
   outline: none;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4); /* Inner shadow for depth */
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4); 
   transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   font-size: 1rem;
 }
 
 .inputField::placeholder {
-  color: var(--color-text-darker); /* Lighter placeholder text */
+  color: var(--color-text-darker); 
 }
 
 .inputField:focus {
   border-color: var(--color-border-input-focus);
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), 0 0 0 2px var(--color-void-blue-medium); /* Ring effect */
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), 0 0 0 2px var(--color-void-blue-medium); 
 }
 
 .inputField:disabled {
@@ -81,36 +76,30 @@
 
 .submitButton {
   width: 100%;
-  font-weight: 600; /* approx font-semibold */
-  padding: 0.75rem 0; /* approx py-3 */
-  border-radius: 0.5rem; /* approx rounded-lg */
-  font-size: 1.125rem; /* approx text-lg */
+  font-weight: 600; 
+  padding: 0.75rem 0; 
+  border-radius: 0.5rem; 
+  font-size: 1.125rem;
   color: var(--color-text-light);
   background: linear-gradient(135deg, var(--color-void-blue-medium), var(--color-void-blue-deep));
-  border: 2px solid rgba(1, 165, 211, 0.3); /* border-void-blue-medium/50 */
-  box-shadow: 0 4px 6px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1); /* 3D effect */
+  border: 2px solid rgba(1, 165, 211, 0.3); 
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1); 
   cursor: pointer;
   transition: all 0.15s ease-in-out;
 }
 
 .submitButton:hover:not(:disabled) {
-  background: linear-gradient(135deg, #01b0e0, #015c80); /* Slightly lighter on hover */
-  box-shadow: 0 6px 8px rgba(1, 165, 211, 0.3), inset 0 1px 0 rgba(255,255,255,0.15); /* Enhanced shadow */
+  background: linear-gradient(135deg, #01b0e0, #015c80); 
+  box-shadow: 0 6px 8px rgba(1, 165, 211, 0.3), inset 0 1px 0 rgba(255,255,255,0.15);
 }
 
 .submitButton:active:not(:disabled) {
   transform: translateY(1px);
-  box-shadow: 0 2px 3px rgba(0,0,0,0.3), inset 0 1px 2px rgba(0,0,0,0.2); /* Pressed effect */
+  box-shadow: 0 2px 3px rgba(0,0,0,0.3), inset 0 1px 2px rgba(0,0,0,0.2);
 }
 
 .submitButton:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  background: linear-gradient(135deg, #01607a, #013c52); /* Muted disabled colors */
-}
-
-.submitButtonLoading {
-  /* You can add specific styles for when the button is in a loading state,
-     e.g., a spinner or different text, handled by JS in the component.
-     For now, opacity is handled by :disabled. */
+  background: linear-gradient(135deg, #01607a, #013c52); 
 }

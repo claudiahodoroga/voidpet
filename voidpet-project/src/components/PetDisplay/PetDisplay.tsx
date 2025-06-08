@@ -1,17 +1,15 @@
 // src/components/PetDisplay/PetDisplay.tsx
 import React from "react";
-import type { Pet } from "../../models/pet.model"; // Importa el tipo Pet
-// Asegúrate de que la ruta y el tipo de importación sean correctos para tu proyecto.
+import type { Pet } from "../../models/pet.model";
 import ThreeJSPetModel from "../ThreeJSPet/ThreeJSPetModel";
 
 interface PetDisplayProps {
-  // Ahora el componente recibe el objeto 'pet' completo.
   pet: Pet;
 }
 
-// El componente principal ahora usa pet.name para mostrar el nombre.
+// El componente principal para mostrar el nombre
 const PetDisplayComponent: React.FC<PetDisplayProps> = ({ pet }) => {
-  console.log("Renderizando PetDisplay para:", pet.name);
+  console.log("Rendering display for:", pet.name);
 
   const displayContainerStyle: React.CSSProperties = {
     display: "flex",
@@ -43,9 +41,7 @@ const PetDisplayComponent: React.FC<PetDisplayProps> = ({ pet }) => {
   );
 };
 
-// SOLUCIÓN: Función de comparación personalizada para React.memo.
-// Le dice a React que solo vuelva a renderizar este componente si el ID o el nombre de la mascota cambian.
-// Ignorará cualquier cambio en las estadísticas o en `lastInteraction`.
+// Función de comparación personalizada para React.memo
 function petPropsAreEqual(
   prevProps: PetDisplayProps,
   nextProps: PetDisplayProps
@@ -56,8 +52,6 @@ function petPropsAreEqual(
   );
 }
 
-// Envolvemos el componente con React.memo y le pasamos nuestra función de comparación.
 export const PetDisplay = React.memo(PetDisplayComponent, petPropsAreEqual);
 
-// Exportamos por defecto para mantener la consistencia.
 export default PetDisplay;

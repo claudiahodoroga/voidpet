@@ -1,7 +1,6 @@
 // src/components/PetNameForm/PetNameForm.tsx
 import React, { useState } from "react";
-import styles from "./PetForm.module.css"; // Import the CSS Module
-
+import styles from "./PetForm.module.css";
 interface PetNameFormProps {
   onCreatePet: (name: string) => void;
   isLoading?: boolean;

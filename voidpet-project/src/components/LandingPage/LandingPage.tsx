@@ -1,7 +1,7 @@
 // src/components/LandingPage/LandingPage.tsx
 import React from "react";
-import ComputerShell from "../ComputerShell/ComputerShell"; // Adjust path if necessary
-import PetNameForm from "../PetForm/PetForm"; // Adjust path if necessary
+import ComputerShell from "../ComputerShell/ComputerShell";
+import PetNameForm from "../PetForm/PetForm";
 
 interface LandingPageProps {
   onCreatePet: (name: string) => void;
@@ -13,13 +13,8 @@ const LandingPage: React.FC<LandingPageProps> = ({
   isLoading,
 }) => {
   return (
-    // The LandingPage itself doesn't need much structure,
-    // it just places the ComputerShell which contains the form.
-    // The outer div in App.tsx will handle centering the ComputerShell.
-    <ComputerShell
-      showTopBarTitle={false} /* Hide "Voidpet - PetName" on initial landing */
-      // We won't pass petName here as no pet exists yet
-    >
+    // ComputerShell con formulario
+    <ComputerShell showTopBarTitle={false}>
       <PetNameForm onCreatePet={onCreatePet} isLoading={isLoading} />
     </ComputerShell>
   );

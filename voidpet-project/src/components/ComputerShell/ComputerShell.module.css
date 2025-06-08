@@ -1,8 +1,6 @@
 /* src/components/ComputerShell/ComputerShell.module.css */
 
-/* ... (Las variables :root de tu archivo global siguen siendo válidas) ... */
-
-/* Estructura principal del ordenador. Ahora con un borde más físico. */
+/* Estructura principal del ordenador */
 .computerStructure {
   display: flex;
   width: 100%;
@@ -16,7 +14,7 @@
   /* Efecto 3D para la carcasa */
   border-radius: 1.25rem;
   /* Borde multicapa para simular grosor y biselado */
-  border: 1px solid #012a3d; /* Borde exterior muy oscuro */
+  border: 4px solid #012a3d; /* Borde exterior muy oscuro */
   box-shadow: 
     inset 0 0 0 1px #016f9a,                /* Línea de luz interior */
     inset 0 0 15px rgba(0,0,0,0.6),        /* Sombra interior profunda */
@@ -27,7 +25,7 @@
   box-sizing: border-box;
 }
 
-/* Contenedor del área de la pantalla (bisel) */
+/* Contenedor del área de la pantalla */
 .screenWrapper {
   flex-grow: 1;
   display: flex;
@@ -37,7 +35,7 @@
   box-shadow: inset 0 3px 8px rgba(0,0,0,0.5);
 }
 
-/* Marco interior de la pantalla ("cristal") */
+/* Marco interior de la pantalla */
 .innerScreenFrame {
   flex-grow: 1;
   background-color: black;
@@ -64,10 +62,10 @@
 .topBarTitle { font-weight: 600; font-size: 1rem; }
 .statusLight { width: 0.75rem; height: 0.75rem; background-color: rgba(74, 222, 128, 0.8); border-radius: 9999px; box-shadow: 0 0 5px rgba(74, 222, 128, 0.7); border: 1px solid #2f855a; }
 
-/* Contenido principal de la pantalla, con gradiente oscuro */
+/* Contenido principal de la pantalla*/
 .screenContent {
   flex-grow: 1;
-  /* Gradiente más oscuro, casi negro, con un toque azulado en el centro */
+
   background: radial-gradient(ellipse at center, #0B0F12 0%, #050608 100%);
   padding: 1.5rem;
   display: flex;

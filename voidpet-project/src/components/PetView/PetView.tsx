@@ -3,7 +3,7 @@ import React from "react";
 import ComputerShell from "../ComputerShell/ComputerShell";
 import StatsDisplay from "../StatsDisplay/StatsDisplay";
 import Controls from "../Controls/Controls";
-import { PetDisplay } from "../PetDisplay/PetDisplay"; // Importa la versión memoizada
+import { PetDisplay } from "../PetDisplay/PetDisplay";
 import type { Pet } from "../../models/pet.model";
 import * as petService from "../../services/pet.service";
 
@@ -77,7 +77,6 @@ const PetView: React.FC<PetViewProps> = ({
         />
       }
     >
-      {/* CORREGIDO: Pasamos el objeto 'pet' completo como prop */}
       <PetDisplay pet={pet} />
     </ComputerShell>
   );

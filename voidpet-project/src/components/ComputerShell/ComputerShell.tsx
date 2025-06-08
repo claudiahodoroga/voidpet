@@ -1,8 +1,6 @@
 // src/components/ComputerShell/ComputerShell.tsx
 import React from "react";
-import styles from "./ComputerShell.module.css"; // Asegúrate de que este archivo CSS esté actualizado
-
-// ... (El resto de tu código de ComputerShell.tsx) ...
+import styles from "./ComputerShell.module.css";
 interface TopBarProps {
   petName?: string;
   showTitle?: boolean;
@@ -14,9 +12,6 @@ export const TopBar: React.FC<TopBarProps> = ({
   return (
     <div className={styles.topBar}>
       <div className={styles.topBarTitleContainer}>
-        {/* --- NUEVOS ICONOS --- */}
-        {/* Elige UNO de los siguientes SVGs. Descomenta el que quieras usar y comenta o elimina los otros. */}
-
         {/* Huevo Simple */}
         {
           <svg
@@ -66,7 +61,7 @@ const ComputerShell: React.FC<ComputerShellProps> = ({
         </div>
       </div>
 
-      {/* Columna Derecha: Controles (si existen) */}
+      {/* Columna Derecha: Controles */}
       {controlsNode && controlsNode}
     </div>
   );

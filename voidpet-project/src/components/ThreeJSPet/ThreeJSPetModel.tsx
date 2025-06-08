@@ -24,9 +24,9 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
     const currentMount = mountRef.current;
     let animationFrameId: number;
     let renderer: THREE.WebGLRenderer;
-    let modelScene: THREE.Group | null = null; // Variable to access the model in the animation loop
+    let modelScene: THREE.Group | null = null;
 
-    // --- Scene Setup ---
+    // Escena
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       50,
@@ -41,7 +41,7 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     currentMount.appendChild(renderer.domElement);
 
-    // --- Lighting ---
+    // Luces
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
     scene.add(ambientLight);
     const directionalLight = new THREE.DirectionalLight(0xffffff, 1.8);
@@ -54,7 +54,7 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
     const clock = new THREE.Clock();
     let mixer: THREE.AnimationMixer | null = null;
 
-    // --- GLTF Model Loading ---
+    // Cargar modelo
     const loader = new GLTFLoader();
     setIsLoading(true);
     setErrorLoading(null);
@@ -68,7 +68,7 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
         const size = box.getSize(new THREE.Vector3());
 
         modelScene.position.sub(center);
-        modelScene.position.y = -1.5; // Final vertical position adjustment
+        modelScene.position.y = -1.5; // Ajuste de posición vertical
 
         const maxDim = Math.max(size.x, size.y, size.z);
         const fov = camera.fov * (Math.PI / 180);
@@ -103,7 +103,7 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
       const delta = clock.getDelta();
       if (mixer) mixer.update(delta);
 
-      // Model Rotation
+      // Rotación del modelo
       if (modelScene) {
         modelScene.rotation.y += 0.005;
       }
