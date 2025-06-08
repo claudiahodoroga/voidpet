@@ -1,32 +1,40 @@
+/* src/components/ComputerShell/ComputerShell.module.css */
+
+/* ... (Las variables :root de tu archivo global siguen siendo válidas) ... */
+
+/* Estructura principal del ordenador. Ahora con un borde más físico. */
 .computerStructure {
   display: flex;
   width: 100%;
-  max-width: 64rem; /* approx max-w-5xl */
+  max-width: 64rem;
   height: 650px;
   max-height: 85vh;
   
-  /* Color de la carcasa unificada */
+  /* Color principal de la carcasa */
   background-color: var(--color-void-blue-deep);
   
   /* Efecto 3D para la carcasa */
-  border-radius: 1.25rem; /* Bordes más redondeados */
-  border: 1px solid #01374f; /* Borde sutil */
+  border-radius: 1.25rem;
+  /* Borde multicapa para simular grosor y biselado */
+  border: 1px solid #012a3d; /* Borde exterior muy oscuro */
   box-shadow: 
-    inset 0 2px 4px rgba(1, 165, 211, 0.2),  /* Sombra interior azulada para dar volumen */
-    0 10px 25px rgba(0, 0, 0, 0.4);       /* Sombra exterior más pronunciada */
-  padding: 1.25rem; /* Espacio interior */
-  gap: 1.25rem; /* Espacio entre la pantalla y el panel de control */
+    inset 0 0 0 1px #016f9a,                /* Línea de luz interior */
+    inset 0 0 15px rgba(0,0,0,0.6),        /* Sombra interior profunda */
+    0 1px 2px rgba(1, 165, 211, 0.4),      /* Resalte de luz sutil en el borde superior */
+    0 10px 30px rgba(0, 0, 0, 0.4);       /* Sombra exterior más suave */
+  padding: 1.25rem;
+  gap: 1.25rem;
   box-sizing: border-box;
 }
 
-/* Contenedor del área de la pantalla (bisel + pantalla interior) */
+/* Contenedor del área de la pantalla (bisel) */
 .screenWrapper {
   flex-grow: 1;
   display: flex;
-  background-color: var(--color-void-dark); /* Color del bisel oscuro */
+  background-color: var(--color-void-dark);
   border-radius: 0.5rem;
   padding: 0.5rem;
-  box-shadow: inset 0 3px 8px rgba(0,0,0,0.5); /* Sombra interior profunda para hundir la pantalla */
+  box-shadow: inset 0 3px 8px rgba(0,0,0,0.5);
 }
 
 /* Marco interior de la pantalla ("cristal") */
@@ -42,26 +50,25 @@
 
 /* Barra superior dentro de la pantalla */
 .topBar {
-  background-color: rgba(29, 31, 36, 0.6); /* bg-void-dark con opacidad */
+  background-color: rgba(29, 31, 36, 0.6);
   color: var(--color-text-light);
   padding: 0.5rem 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid rgba(0,0,0,0.7);
-  flex-shrink: 0; /* Evita que se encoja */
+  flex-shrink: 0;
 }
-/* ... (otros estilos de topBar como .topBarTitleContainer, .topBarIcon, etc. permanecen igual) ... */
 .topBarTitleContainer { display: flex; align-items: center; gap: 0.5rem; }
 .topBarIcon { width: 1.25rem; height: 1.25rem; fill: var(--color-void-blue-medium); }
 .topBarTitle { font-weight: 600; font-size: 1rem; }
 .statusLight { width: 0.75rem; height: 0.75rem; background-color: rgba(74, 222, 128, 0.8); border-radius: 9999px; box-shadow: 0 0 5px rgba(74, 222, 128, 0.7); border: 1px solid #2f855a; }
 
-
-/* Contenido principal de la pantalla */
+/* Contenido principal de la pantalla, con gradiente oscuro */
 .screenContent {
-  flex-grow: 1; /* Ocupa el espacio vertical disponible */
-  background: var(--gradient-screen);
+  flex-grow: 1;
+  /* Gradiente más oscuro, casi negro, con un toque azulado en el centro */
+  background: radial-gradient(ellipse at center, #0B0F12 0%, #050608 100%);
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -75,5 +82,5 @@
 /* Área para la barra de estadísticas */
 .statsBarArea {
   border-top: 1px solid rgba(0,0,0,0.7);
-  flex-shrink: 0; /* Evita que se encoja */
+  flex-shrink: 0;
 }

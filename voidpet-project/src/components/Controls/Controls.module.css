@@ -1,46 +1,51 @@
 /* src/components/Controls/Controls.module.css */
 
-/* El panel de controles ahora es solo un contenedor flex */
+/* El panel de controles sigue siendo un contenedor simple */
 .controlsPanel {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  justify-content: center; /* Centra los botones verticalmente */
-  width: 12rem; /* Ancho fijo para el panel lateral */
-  flex-shrink: 0; /* Evita que el panel se encoja */
+  justify-content: center;
+  width: 12rem;
+  flex-shrink: 0;
 }
 
-/* Estilo de los botones, con un efecto 3D más pronunciado */
+/* Estilo de los botones, con más profundidad y bordes menos redondeados */
 .controlButton {
   width: 100%;
   padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
+  border-radius: 0.375rem; /* Menos redondeado, más cuadrado (era 0.5rem) */
   font-weight: 600;
   font-size: 0.875rem;
   text-align: center;
   color: var(--color-text-light);
   
-  /* Colores y bordes para efecto 3D */
-  background: linear-gradient(145deg, #015b7e, #013c58);
-  border: 1px solid #01374f;
-  border-top-color: #016f9a;
+  /* Efecto 3D con gradiente y múltiples bordes/sombras */
+  background: linear-gradient(145deg, #016f9a, #01374f);
+  border: 1px solid #012a3d; /* Borde oscuro exterior */
+  box-shadow: 
+    inset 0 1px 1px #01a5d380,   /* Borde de luz interior */
+    0 2px 3px rgba(0,0,0,0.4);   /* Sombra exterior */
   
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
   cursor: pointer;
-  transition: all 0.15s ease-in-out;
+  transition: all 0.2s ease-out; /* Transición más suave */
 }
 
+/* Efecto hover más sutil */
 .controlButton:hover:not(:disabled) {
-  background: linear-gradient(145deg, #0175a3, #014c6c);
-  border-top-color: var(--color-void-blue-medium);
-  transform: translateY(-2px); /* Efecto de elevación */
-  box-shadow: 0 6px 12px rgba(0,0,0,0.35);
+  background: linear-gradient(145deg, #017eb3, #014666); /* Aclarado sutil */
+  /* El transform se elimina para un efecto menos dramático */
+  /* transform: translateY(-2px); */
+  box-shadow: 
+    inset 0 1px 1px #01a5d3a6,
+    0 4px 8px rgba(0,0,0,0.3); /* La sombra se levanta un poco */
 }
 
+/* Efecto al presionar el botón */
 .controlButton:active:not(:disabled) {
-  transform: translateY(1px); /* Efecto de ser presionado */
-  background: linear-gradient(145deg, #013c58, #015b7e);
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+  transform: translateY(1px); /* Se hunde ligeramente */
+  background: linear-gradient(145deg, #013c58, #015b7e); /* Se oscurece */
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); /* Sombra interior más fuerte */
 }
 
 .controlButton:disabled {

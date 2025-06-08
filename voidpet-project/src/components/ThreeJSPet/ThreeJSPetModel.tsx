@@ -24,8 +24,9 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
     const currentMount = mountRef.current;
     let animationFrameId: number;
     let renderer: THREE.WebGLRenderer;
+    let modelScene: THREE.Group | null = null; // Variable to access the model in the animation loop
 
-    // --- Configuración de la Escena de Three.js ---
+    // --- Scene Setup ---
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       50,
@@ -40,17 +41,20 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     currentMount.appendChild(renderer.domElement);
 
-    // Iluminación
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+    // --- Lighting ---
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
     scene.add(ambientLight);
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.8);
     directionalLight.position.set(5, 10, 7.5);
     scene.add(directionalLight);
+    const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.5);
+    directionalLight2.position.set(-5, 5, -5);
+    scene.add(directionalLight2);
 
     const clock = new THREE.Clock();
     let mixer: THREE.AnimationMixer | null = null;
 
-    // --- Carga del Modelo GLTF ---
+    // --- GLTF Model Loading ---
     const loader = new GLTFLoader();
     setIsLoading(true);
     setErrorLoading(null);
@@ -58,45 +62,37 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
     loader.load(
       modelPath,
       (gltf) => {
-        const model = gltf.scene;
-
-        // El cálculo del bounding box es solo para obtener el tamaño
-        const box = new THREE.Box3().setFromObject(model);
+        modelScene = gltf.scene;
+        const box = new THREE.Box3().setFromObject(modelScene);
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
 
-        model.position.sub(center); // Centrar el pivote del modelo
-
-        // AJUSTE DE POSICIÓN VERTICAL:
-        // Esta línea ahora debería mover el modelo visiblemente.
-        // Prueba con diferentes valores aquí.
-        model.position.y = -1.7;
-
-        scene.add(model);
+        modelScene.position.sub(center);
+        modelScene.position.y = -1.5; // Final vertical position adjustment
 
         const maxDim = Math.max(size.x, size.y, size.z);
         const fov = camera.fov * (Math.PI / 180);
         let cameraDistance = Math.abs(maxDim / 2 / Math.tan(fov / 2));
         cameraDistance *= 2.2;
 
-        // SOLUCIÓN 2: Fija la posición de la cámara y a dónde mira.
-        // Ya no seguirá al modelo, dándote un punto de vista estable.
-        camera.position.set(0, 0.4, cameraDistance); // Sube un poco la cámara para una mejor vista
-        camera.lookAt(0, 0, 0); // La cámara ahora mira al centro de la escena (origen)
+        camera.position.set(0, 0, cameraDistance);
+        camera.lookAt(0, 0, 0);
+
+        scene.add(modelScene);
 
         setIsLoading(false);
         if (onLoad) onLoad();
 
         if (gltf.animations && gltf.animations.length) {
-          mixer = new THREE.AnimationMixer(model);
+          mixer = new THREE.AnimationMixer(modelScene);
           const action = mixer.clipAction(gltf.animations[0]);
           action.play();
         }
       },
       undefined,
       (error) => {
-        console.error("Ocurrió un error al cargar el modelo:", error);
-        setErrorLoading(`Fallo al cargar el modelo: ${error.message}`);
+        console.error("An error occurred while loading the model:", error);
+        setErrorLoading(`Failed to load model: ${error.message}`);
         setIsLoading(false);
         if (onError) onError(error);
       }
@@ -106,6 +102,11 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
       animationFrameId = requestAnimationFrame(animate);
       const delta = clock.getDelta();
       if (mixer) mixer.update(delta);
+
+      // Model Rotation
+      if (modelScene) {
+        modelScene.rotation.y += 0.005;
+      }
 
       renderer.render(scene, camera);
     };
@@ -124,6 +125,7 @@ const ThreeJSPetModel: React.FC<ThreeJSPetModelProps> = ({
     return () => {
       resizeObserver.disconnect();
       cancelAnimationFrame(animationFrameId);
+
       scene.traverse((object) => {
         if (object instanceof THREE.Mesh) {
           object.geometry.dispose();
