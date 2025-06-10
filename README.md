@@ -4,7 +4,7 @@
 
 Voidpet es una aplicación web interactiva inspirada en el concepto de Tamagotchi, donde el usuario puede cuidar de una mascota virtual. El diseño de la interfaz busca una estética retro-futurista, con reminiscencias de terminales de computadora clásicas, inspirada parcialmente por la serie "Severance". Este documento detalla el proceso de desarrollo de la aplicación y ofrece un breve tutorial sobre cómo interactuar con ella.
 
-**Nota:** Esta versión del proyecto se entrega sin la integración del modelo 3D de la mascota y sin la completa adaptabilidad a dispositivos móviles, aspectos que se planean implementar para la demostración final en junio.
+Enlace de acceso: https://witty-pond-059ae2403.6.azurestaticapps.net/
 
 ---
 
